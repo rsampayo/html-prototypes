@@ -660,7 +660,8 @@ function generateSalesDetail(kpiData) {
             ${kpiData.segments.map(segment => `
                 <div class="detail-row">
                     <span class="detail-label">${segment.name}</span>
-                    <span class="detail-value">${segment.value}
+                    <span class="detail-value ${segment.trend === 'up' ? 'positive' : segment.trend === 'down' ? 'negative' : 'neutral'}">
+                        ${segment.value}
                         ${segment.trend === 'up' ?
                             `<span class="detail-trend"><span class="trend-icon trend-up">▲</span></span>` :
                             segment.trend === 'down' ?
@@ -757,12 +758,13 @@ function generateFleetDetail(kpiData) {
             ${kpiData.segments.map(segment => `
                 <div class="detail-row">
                     <span class="detail-label">${segment.name}</span>
-                    <span class="detail-value">${segment.value}
-                        ${segment.trend === 'up' ?
-                            `<span class="detail-trend"><span class="trend-icon trend-up">▲</span></span>` :
-                            segment.trend === 'down' ?
-                            `<span class="detail-trend"><span class="trend-icon trend-down">▼</span></span>` :
-                            `<span class="detail-trend"><span class="trend-icon trend-neutral">■</span></span>`}
+                    <span class="detail-value ${segment.trend === 'up' ? 'positive' : segment.trend === 'down' ? 'negative' : 'neutral'}">
+                        ${segment.value}
+                        <span class="detail-trend">
+                            <span class="trend-icon ${segment.trend === 'up' ? 'trend-up' : segment.trend === 'down' ? 'trend-down' : 'trend-neutral'}">
+                                ${segment.trend === 'up' ? '▲' : segment.trend === 'down' ? '▼' : '■'}
+                            </span>
+                        </span>
                     </span>
                 </div>
             `).join('')}

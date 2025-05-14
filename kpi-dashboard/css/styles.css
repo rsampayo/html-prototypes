@@ -802,3 +802,28 @@ body {
     font-weight: 500;
     color: var(--label-color);
 }
+/* Style for trend indicators */
+.trend-icon.trend-up {
+    color: var(--system-green);
+}
+
+.trend-icon.trend-down {
+    color: var(--system-red);
+}
+
+.trend-icon.trend-neutral {
+    color: var(--system-blue);
+}
+
+/* Detail trend styles */
+.detail-value.positive {
+    color: var(--system-green);
+}
+
+.detail-value.negative {
+    color: var(--system-red);
+}
+
+.detail-value.neutral {
+    color: var(--system-blue);
+}

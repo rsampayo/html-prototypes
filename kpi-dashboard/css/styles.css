@@ -433,14 +433,19 @@ body {
 }
 /* Estilo para gráficos de barras de ventas */
 .sales-chart-container {
-    margin-top: 24px;
-    height: 320px;
+    width: 100%;
+    min-height: 350px;
+    margin: 0 auto;
     position: relative;
-    display: flex;
-    align-items: flex-end;
     overflow: visible;
-    padding-top: 40px;
 }
+
+@media (max-width: 500px) {
+    .sales-chart-container {
+        min-height: 420px; /* More height on mobile for better display */
+    }
+}
+
 .sales-bar-group {
     flex: 1;
     display: flex;

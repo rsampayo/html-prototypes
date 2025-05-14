@@ -1278,44 +1278,54 @@ function renderSalesChart(data) {
     const container = document.getElementById('sales-chart');
     if (!container) return;
 
-    // Encontrar el valor máximo para escalar correctamente
+    // Clear the container
+    container.innerHTML = '';
+
+    // Find the maximum value for proper scaling
     const allValues = [
         ...data.currentYear.data.filter(val => val !== 'N/A'),
         ...data.previousYear.data
     ];
     const maxValue = Math.max(...allValues) * 1.1;
 
-    // Limpiar contenedor
-    container.innerHTML = '';
+    // Main chart container with fixed height
+    const chartContainer = document.createElement('div');
+    chartContainer.style.width = '100%';
+    chartContainer.style.height = '350px';
+    chartContainer.style.position = 'relative';
+    chartContainer.style.marginTop = '40px';
+    chartContainer.style.marginBottom = '30px';
+    chartContainer.style.display = 'flex';
+    chartContainer.style.alignItems = 'flex-end';
+    chartContainer.style.justifyContent = 'space-around';
 
-    // Crear contenedor para las barras
-    const barsContainer = document.createElement('div');
-    barsContainer.style.position = 'relative';
-    barsContainer.style.height = '300px'; // Increased height for better visualization
-    barsContainer.style.marginBottom = '60px'; // Increased margin for labels
-    barsContainer.style.marginTop = '60px'; // Increased margin for value labels
-
-    // Crear grupos de barras para cada trimestre
-    data.labels.forEach((label, idx) => {
+    // Create quarter groups
+    data.labels.forEach((label, index) => {
+        // Create container for each quarter
         const quarterGroup = document.createElement('div');
-        quarterGroup.style.position = 'absolute';
-        quarterGroup.style.bottom = '0';
-        quarterGroup.style.left = `${(idx / data.labels.length) * 100}%`;
-        quarterGroup.style.width = `${100 / data.labels.length}%`;
-        quarterGroup.style.height = '100%';
         quarterGroup.style.display = 'flex';
-        quarterGroup.style.justifyContent = 'center';
-        quarterGroup.style.alignItems = 'flex-end';
-
-        // Crear barra para año actual si el valor no es N/A
-        const currentValue = data.currentYear.data[idx];
+        quarterGroup.style.flexDirection = 'column';
+        quarterGroup.style.alignItems = 'center';
+        quarterGroup.style.width = `${100 / data.labels.length}%`;
+        quarterGroup.style.position = 'relative';
+        
+        // Bar container
+        const barGroup = document.createElement('div');
+        barGroup.style.display = 'flex';
+        barGroup.style.alignItems = 'flex-end';
+        barGroup.style.height = '280px';
+        barGroup.style.width = '100%';
+        barGroup.style.justifyContent = 'center';
+        barGroup.style.gap = '8px';
+        
+        // Current year bar
+        const currentValue = data.currentYear.data[index];
         if (currentValue !== 'N/A') {
-            const currentHeight = (currentValue / maxValue) * 240;
+            const currentHeight = (currentValue / maxValue) * 250;
             const currentBar = document.createElement('div');
-            currentBar.style.width = '30px'; // Reduced width for better spacing
+            currentBar.style.width = '40px';
             currentBar.style.height = `${currentHeight}px`;
             currentBar.style.backgroundColor = 'var(--current-year-color)';
-            currentBar.style.margin = '0 4px';
             currentBar.style.borderRadius = '4px 4px 0 0';
             currentBar.style.position = 'relative';
 

@@ -1,0 +1,789 @@
+:root {
+    /* Colores del sistema iOS */
+    --system-blue: #007AFF;
+    --system-green: #34C759;
+    --system-indigo: #5856D6;
+    --system-orange: #FF9500;
+    --system-pink: #FF2D55;
+    --system-purple: #AF52DE;
+    --system-red: #FF3B30;
+    --system-teal: #5AC8FA;
+    --system-yellow: #FFCC00;
+    /* Colores para las unidades de negocio */
+    --foraneo-color: var(--system-blue);
+    --cruce-color: var(--system-orange);
+    --local-color: var(--system-green);
+    --maritimo-color: var(--system-purple);
+    /* Colores para años en comparativas */
+    --current-year-color: var(--system-blue);
+    --previous-year-color: var(--system-teal);
+    /* Colores de fondo y texto */
+    --system-background: #F2F2F7;
+    --system-grouped-background: #F2F2F7;
+    --system-secondary-background: #FFFFFF;
+    --label-color: #000000;
+    --secondary-label-color: #3C3C43B3; /* ~70% opacity */
+    --tertiary-label-color: #3C3C4399; /* ~60% opacity */
+    /* Separadores */
+    --separator-color: rgba(60, 60, 67, 0.29);
+    /* Estilos de tarjeta */
+    --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --system-background: #000000;
+        --system-grouped-background: #1C1C1E;
+        --system-secondary-background: #2C2C2E;
+        --label-color: #FFFFFF;
+        --secondary-label-color: #EBEBF599; /* ~60% opacity */
+        --tertiary-label-color: #EBEBF566; /* ~40% opacity */
+        --separator-color: rgba(84, 84, 88, 0.6);
+        --card-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+}
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--system-grouped-background);
+    color: var(--label-color);
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden; /* Evitar desplazamiento horizontal */
+}
+/* Sistema de navegación */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--system-background);
+    transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.screen.offscreen-right {
+    transform: translateX(100%);
+    z-index: 10;
+}
+.screen.active {
+    transform: translateX(0);
+    z-index: 20;
+}
+.screen.offscreen-left {
+    transform: translateX(-30%);
+    z-index: 0;
+}
+/* Encabezado estilo iOS */
+.navigation-header {
+    background-color: var(--system-background);
+    color: var(--label-color);
+    padding: 12px 16px;
+    padding-top: max(12px, env(safe-area-inset-top));
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 0.5px solid var(--separator-color);
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+}
+.navigation-title {
+    flex: 1;
+    text-align: center;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.41px;
+    margin: 0;
+}
+.back-button {
+    display: flex;
+    align-items: center;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--system-blue);
+    padding: 8px 0;
+    cursor: pointer;
+    user-select: none;
+}
+.back-button::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid var(--system-blue);
+    border-left: 2px solid var(--system-blue);
+    transform: rotate(-45deg);
+    margin-right: 5px;
+    position: relative;
+    top: 1px;
+}
+.date-info {
+    font-size: 13px;
+    margin-top: 4px;
+    color: var(--secondary-label-color);
+    font-weight: 400;
+    text-align: center;
+}
+/* Grid de KPIs con estilo iOS */
+.kpi-grid {
+    padding: 12px;
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+@media (min-width: 600px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (min-width: 1200px) {
+    .kpi-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+/* Tarjetas estilo iOS */
+.kpi-card {
+    background-color: var(--system-secondary-background);
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+.kpi-card:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+}
+/* Indicador de color lateral según estado */        
+.kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+/* Color de la barra según el estado del KPI */
+.kpi-card[data-status="good"]::before { background-color: var(--system-green); }
+.kpi-card[data-status="warning"]::before { background-color: var(--system-yellow); }
+.kpi-card[data-status="bad"]::before { background-color: var(--system-red); }
+.kpi-card[data-status="neutral"]::before { background-color: var(--system-blue); }
+.kpi-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--secondary-label-color);
+    font-weight: 500;
+    letter-spacing: -0.24px;
+}
+.kpi-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--label-color);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: baseline;
+    letter-spacing: -0.5px;
+}
+.kpi-value .unit {
+    font-size: 16px;
+    margin-left: 2px;
+    color: var(--secondary-label-color);
+    font-weight: 500;
+}
+.kpi-context {
+    font-size: 13px;
+    color: var(--tertiary-label-color);
+    margin-bottom: 10px;
+    letter-spacing: -0.08px;
+}
+/* Estilos de status mejorados */
+.kpi-status {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 10px;
+    display: inline-block;
+    letter-spacing: -0.08px;
+}
+.status-good {
+    color: var(--system-green);
+    background-color: rgba(52, 199, 89, 0.12);
+}
+.status-warning {
+    color: var(--system-orange);
+    background-color: rgba(255, 149, 0, 0.12);
+}
+.status-bad {
+    color: var(--system-red);
+    background-color: rgba(255, 59, 48, 0.12);
+}
+.status-neutral {
+    color: var(--system-blue);
+    background-color: rgba(0, 122, 255, 0.12);
+}
+/* Prefijos de status mejorados */
+.kpi-status::before {
+    display: inline-block;
+    margin-right: 4px;
+    font-weight: 900;
+}
+.status-good::before { content: '▲'; }
+.status-warning::before { content: '■'; }
+.status-bad::before { content: '▼'; }
+.status-neutral::before { content: '●'; }
+/* Componentes para detalles */
+.detail-view {
+    padding: 16px;
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
+}
+.detail-card {
+    background-color: var(--system-secondary-background);
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 16px;
+}
+.detail-header {
+    margin-bottom: 20px;
+    text-align: center;
+}
+.detail-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--label-color);
+    margin-bottom: 8px;
+}
+.detail-value-large {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--label-color);
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.detail-value-large .unit {
+    font-size: 20px;
+    margin-left: 2px;
+    color: var(--secondary-label-color);
+    font-weight: 500;
+}
+.detail-section-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--label-color);
+    margin-top: 20px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 0.5px solid var(--separator-color);
+}
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 0.5px solid var(--separator-color);
+}
+.detail-row:last-child {
+    border-bottom: none;
+}
+.detail-label {
+    font-size: 15px;
+    color: var(--secondary-label-color);
+    margin-right: 8px;
+}
+.detail-value {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--label-color);
+    display: flex;
+    align-items: center;
+}
+.detail-trend {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+}
+.trend-icon {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    margin-right: 3px;
+}
+.trend-up .trend-icon {
+    border-bottom: 8px solid var(--system-green);
+}
+.trend-down .trend-icon {
+    border-top: 8px solid var(--system-red);
+}
+.trend-neutral .trend-icon {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--system-blue);
+}
+.chart-container {
+    height: 250px;
+    width: 100%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.chart-axis {
+    position: absolute;
+    background-color: var(--separator-color);
+}
+.chart-x-axis {
+    bottom: 30px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+}
+.chart-bar-group {
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+}
+.chart-bar {
+    flex: 1;
+    margin: 0 5px;
+    background-color: var(--system-blue);
+    border-radius: 4px 4px 0 0;
+    position: relative;
+}
+.chart-x-label {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: var(--secondary-label-color);
+    text-align: center;
+    width: 100%;
+}
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+}
+.legend-item {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: var(--secondary-label-color);
+}
+.legend-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    margin-right: 4px;
+}
+/* Añadir el indicador de chevron a las tarjetas */
+.kpi-card::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid var(--separator-color);
+    border-right: 2px solid var(--separator-color);
+    transform: translateY(-50%) rotate(45deg);
+    opacity: 0.5;
+}
+/* Barra de satisfacción */
+.satisfaction-bar-container {
+    height: 8px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin-top: 12px;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+.satisfaction-bar {
+    height: 100%;
+    background-color: var(--system-blue);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+/* Estilo para gráficos de barras de ventas */
+.sales-chart-container {
+    margin-top: 24px;
+    height: 180px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+}
+.sales-bar-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+.sales-bar {
+    width: 80%;
+    background-color: var(--system-blue);
+    border-radius: 3px 3px 0 0;
+    position: relative;
+}
+.sales-bar-value {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--secondary-label-color);
+    white-space: nowrap;
+}
+.sales-bar-label {
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--secondary-label-color);
+    text-align: center;
+    white-space: nowrap;
+}
+/* Estilo para medidor tipo gauge */
+.gauge-container {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    position: relative;
+}
+.gauge-background {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--system-red) 0% 20%,
+        var(--system-orange) 20% 40%,
+        var(--system-yellow) 40% 60%,
+        var(--system-green) 60% 85%,
+        var(--system-blue) 85% 100%
+    );
+    transform: rotate(-90deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.gauge-fill {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+        transparent var(--fillPercent),
+        var(--system-secondary-background) var(--fillPercent)
+    );
+    transform: rotate(-90deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.gauge-center {
+    width: 80%;
+    height: 80%;
+    background-color: var(--system-secondary-background);
+    border-radius: 50%;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.gauge-needle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    transform: rotate(calc(var(--needleRotation) * 1deg));
+    z-index: 2;
+}
+.gauge-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--label-color);
+    margin-bottom: 2px;
+    display: flex;
+    align-items: baseline;
+}
+.gauge-label {
+    font-size: 14px;
+    color: var(--secondary-label-color);
+    text-align: center;
+    margin-top: 2px;
+}
+.gauge-marks {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+.gauge-mark {
+    position: absolute;
+    width: 2px;
+    height: 10px;
+    background-color: var(--system-secondary-background);
+    transform-origin: center 100px;
+    transform: rotate(var(--rotation));
+}
+.gauge-mark-label {
+    position: absolute;
+    font-size: 10px;
+    color: var(--secondary-label-color);
+    transform-origin: center 120px;
+    transform: rotate(var(--rotation)) translateY(-140%);
+}
+/* Estilo para gráfico de donut */
+.donut-chart-container {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    position: relative;
+}
+.donut-chart {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--system-green) 0% var(--percentage),
+        var(--system-red) var(--percentage) 100%
+    );
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.donut-chart-hole {
+    width: 70%;
+    height: 70%;
+    background-color: var(--system-secondary-background);
+    border-radius: 50%;
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.donut-chart-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--label-color);
+}
+.donut-chart-label {
+    font-size: 12px;
+    color: var(--secondary-label-color);
+    text-align: center;
+    margin-top: 4px;
+}
+/* Estilo para la cuadrícula de métricas de ventas */
+.sales-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+}
+.sales-metric {
+    text-align: center;
+    padding: 12px;
+    background-color: var(--system-secondary-background);
+    border-radius: 10px;
+}
+.sales-metric-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--label-color);
+}
+.sales-metric-value.blue {
+    color: var(--system-blue);
+}
+.sales-metric-value.orange {
+    color: var(--system-orange);
+}
+.sales-metric-label {
+    font-size: 12px;
+    color: var(--secondary-label-color);
+    margin-top: 4px;
+}
+.sales-metric-prev {
+    font-size: 11px;
+    color: var(--tertiary-label-color);
+    margin-top: 2px;
+}
+/* Contenedor para gráficos de costos mensuales */
+.monthly-costs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 20px;
+}
+.cost-chart-container {
+    height: 180px;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+}
+.cost-chart-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--label-color);
+    margin-bottom: 10px;
+    text-align: center;
+}
+.cost-bar {
+    flex: 1;
+    margin: 0 2px;
+    border-radius: 3px 3px 0 0;
+    position: relative;
+}
+.cost-bar.current-year {
+    background-color: var(--current-year-color);
+}
+.cost-bar.previous-year {
+    background-color: var(--previous-year-color);
+}
+.month-label {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: var(--secondary-label-color);
+    text-align: center;
+    white-space: nowrap;
+}
+/* Información de la flota en formato grid */
+.fleet-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+.fleet-metric {
+    text-align: center;
+    padding: 12px;
+    background-color: var(--system-secondary-background);
+    border-radius: 10px;
+}
+.fleet-metric-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--label-color);
+}
+.fleet-metric-label {
+    font-size: 12px;
+    color: var(--secondary-label-color);
+    margin-top: 4px;
+}
+/* Layout dividido para pantallas más grandes */
+.split-view {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+@media (min-width: 768px) {
+    .split-view {
+        flex-direction: row;
+    }
+}
+.goal-card {
+    background-color: var(--system-secondary-background);
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: var(--card-shadow);
+}
+.goal-value {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--label-color);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: baseline;
+}
+.goal-progress {
+    height: 8px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    overflow: hidden;
+}
+.progress-bar {
+    height: 100%;
+    background-color: var(--system-blue);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+.goal-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--secondary-label-color);
+}
+.detail-section-subtitle {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--secondary-label-color);
+    margin-top: 12px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+.goals-by-segment {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+}
+.segment-goal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.segment-name {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: var(--label-color);
+    flex: 1;
+}
+.color-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+.segment-target {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--label-color);
+}

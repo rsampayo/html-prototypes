@@ -559,7 +559,7 @@ function showDetail(kpiId) {
         detailHTML = generateMaintenanceDetail(kpiData);
     } else {
         // Vista genérica para los demás KPIs
-        detailHTML = generateGenericDetail(kpiData);
+        detailHTML = generateGenericDetail(kpiData, kpiId);
     }
     
     // Actualizar el contenido
@@ -975,7 +975,7 @@ function generateMaintenanceDetail(kpiData) {
 }
 
 // Generador de detalle genérico para otros KPIs
-function generateGenericDetail(kpiData) {
+function generateGenericDetail(kpiData, kpiId) {
     return `
         <div class="detail-card">
             <div class="detail-value-large">${kpiData.value}</div>
@@ -1044,7 +1044,7 @@ function generateGenericDetail(kpiData) {
         ${kpiData.trendsBySegment && kpiData.trendsBySegment.series ? `
         <div class="detail-card">
             <div class="detail-section-title">Tendencia por Unidad de Negocio</div>
-            <div id="chart-container-${kpiData.title.toLowerCase().replace(/\s+/g, '-')}" class="chart-container"></div>
+            <div id="chart-container-${kpiId}" class="chart-container"></div>
             <div class="chart-legend">
                 ${kpiData.trendsBySegment.series.map(series => `
                     <div class="legend-item">

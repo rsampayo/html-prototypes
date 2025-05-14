@@ -1291,9 +1291,9 @@ function renderSalesChart(data) {
     // Crear contenedor para las barras
     const barsContainer = document.createElement('div');
     barsContainer.style.position = 'relative';
-    barsContainer.style.height = '240px';
-    barsContainer.style.marginBottom = '40px';
-    barsContainer.style.marginTop = '40px';
+    barsContainer.style.height = '300px'; // Increased height for better visualization
+    barsContainer.style.marginBottom = '60px'; // Increased margin for labels
+    barsContainer.style.marginTop = '60px'; // Increased margin for value labels
 
     // Crear grupos de barras para cada trimestre
     data.labels.forEach((label, idx) => {
@@ -1310,12 +1310,12 @@ function renderSalesChart(data) {
         // Crear barra para año actual si el valor no es N/A
         const currentValue = data.currentYear.data[idx];
         if (currentValue !== 'N/A') {
-            const currentHeight = (currentValue / maxValue) * 200;
+            const currentHeight = (currentValue / maxValue) * 240;
             const currentBar = document.createElement('div');
-            currentBar.style.width = '40px';
+            currentBar.style.width = '30px'; // Reduced width for better spacing
             currentBar.style.height = `${currentHeight}px`;
             currentBar.style.backgroundColor = 'var(--current-year-color)';
-            currentBar.style.margin = '0 5px';
+            currentBar.style.margin = '0 4px';
             currentBar.style.borderRadius = '4px 4px 0 0';
             currentBar.style.position = 'relative';
 
@@ -1329,18 +1329,20 @@ function renderSalesChart(data) {
             currentValueLabel.style.textAlign = 'center';
             currentValueLabel.style.fontSize = '12px';
             currentValueLabel.style.fontWeight = '600';
+            currentValueLabel.style.whiteSpace = 'nowrap'; // Prevent wrapping
+            currentValueLabel.style.transform = 'translateY(-100%)'; // Move up to avoid overlap
             currentBar.appendChild(currentValueLabel);
             quarterGroup.appendChild(currentBar);
         }
 
         // Crear barra para año anterior
         const prevValue = data.previousYear.data[idx];
-        const prevHeight = (prevValue / maxValue) * 200;
+        const prevHeight = (prevValue / maxValue) * 240;
         const prevBar = document.createElement('div');
-        prevBar.style.width = '40px';
+        prevBar.style.width = '30px'; // Reduced width for better spacing
         prevBar.style.height = `${prevHeight}px`;
         prevBar.style.backgroundColor = 'var(--previous-year-color)';
-        prevBar.style.margin = '0 5px';
+        prevBar.style.margin = '0 4px';
         prevBar.style.borderRadius = '4px 4px 0 0';
         prevBar.style.position = 'relative';
 
@@ -1354,6 +1356,8 @@ function renderSalesChart(data) {
         prevValueLabel.style.textAlign = 'center';
         prevValueLabel.style.fontSize = '12px';
         prevValueLabel.style.fontWeight = '600';
+        prevValueLabel.style.whiteSpace = 'nowrap'; // Prevent wrapping
+        prevValueLabel.style.transform = 'translateY(-100%)'; // Move up to avoid overlap
         prevBar.appendChild(prevValueLabel);
         quarterGroup.appendChild(prevBar);
 
@@ -1363,7 +1367,8 @@ function renderSalesChart(data) {
         quarterLabel.style.bottom = '-30px';
         quarterLabel.style.width = '100%';
         quarterLabel.style.textAlign = 'center';
-        quarterLabel.style.fontSize = '12px';
+        quarterLabel.style.fontSize = '14px';
+        quarterLabel.style.fontWeight = '500';
         quarterLabel.textContent = label;
         quarterGroup.appendChild(quarterLabel);
 

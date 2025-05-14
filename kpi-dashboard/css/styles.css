@@ -368,6 +368,8 @@ body {
     background-color: var(--system-blue);
     border-radius: 4px 4px 0 0;
     position: relative;
+    min-height: 5px;
+    min-width: 20px;
 }
 .chart-x-label {
     position: absolute;
@@ -437,7 +439,9 @@ body {
     min-height: 350px;
     margin: 0 auto;
     position: relative;
-    overflow: visible;
+    border: 1px solid var(--separator-color);
+    background-color: var(--card-color);
+    border-radius: 8px;
 }
 
 @media (max-width: 500px) {

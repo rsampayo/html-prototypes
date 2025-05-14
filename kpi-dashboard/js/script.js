@@ -1277,134 +1277,58 @@ function renderMaintenanceCostChart(data) {
 function renderSalesChart(data) {
     const container = document.getElementById('sales-chart');
     if (!container) return;
-
-    // Clear the container
+    
+    // Clear container
     container.innerHTML = '';
-
-    // Find the maximum value for proper scaling
-    const allValues = [
-        ...data.currentYear.data.filter(val => val !== 'N/A'),
-        ...data.previousYear.data
-    ];
-    const maxValue = Math.max(...allValues) * 1.1;
-
-    // Main chart container with fixed height
-    const chartContainer = document.createElement('div');
-    chartContainer.style.width = '100%';
-    chartContainer.style.height = '350px';
-    chartContainer.style.position = 'relative';
-    chartContainer.style.marginTop = '40px';
-    chartContainer.style.marginBottom = '30px';
-    chartContainer.style.display = 'flex';
-    chartContainer.style.alignItems = 'flex-end';
-    chartContainer.style.justifyContent = 'space-around';
-
-    // Create quarter groups
-    data.labels.forEach((label, index) => {
-        // Create container for each quarter
-        const quarterGroup = document.createElement('div');
-        quarterGroup.style.display = 'flex';
-        quarterGroup.style.flexDirection = 'column';
-        quarterGroup.style.alignItems = 'center';
-        quarterGroup.style.width = `${100 / data.labels.length}%`;
-        quarterGroup.style.position = 'relative';
-        
-        // Bar container
-        const barGroup = document.createElement('div');
-        barGroup.style.display = 'flex';
-        barGroup.style.alignItems = 'flex-end';
-        barGroup.style.height = '280px';
-        barGroup.style.width = '100%';
-        barGroup.style.justifyContent = 'center';
-        barGroup.style.gap = '8px';
-        
-        // Current year bar
-        const currentValue = data.currentYear.data[index];
-        if (currentValue !== 'N/A') {
-            const currentHeight = (currentValue / maxValue) * 250;
-            const currentBar = document.createElement('div');
-            currentBar.style.width = '40px';
-            currentBar.style.height = `${currentHeight}px`;
-            currentBar.style.backgroundColor = 'var(--current-year-color)';
-            currentBar.style.borderRadius = '4px 4px 0 0';
-            currentBar.style.position = 'relative';
-
-            // Valor sobre la barra
-            const currentValueLabel = document.createElement('div');
-            currentValueLabel.textContent = formatCurrency(currentValue);
-            currentValueLabel.style.position = 'absolute';
-            currentValueLabel.style.top = '-24px';
-            currentValueLabel.style.left = '0';
-            currentValueLabel.style.right = '0';
-            currentValueLabel.style.textAlign = 'center';
-            currentValueLabel.style.fontSize = '12px';
-            currentValueLabel.style.fontWeight = '600';
-            currentValueLabel.style.whiteSpace = 'nowrap'; // Prevent wrapping
-            currentValueLabel.style.transform = 'translateY(-100%)'; // Move up to avoid overlap
-            currentBar.appendChild(currentValueLabel);
-            quarterGroup.appendChild(currentBar);
-        }
-
-        // Crear barra para año anterior
+    
+    // Build simple HTML table-based chart
+    let html = `
+    <div style="padding: 10px; margin-top: 30px; width: 100%;">
+        <table style="width: 100%; border-collapse: collapse; text-align: center;">
+            <tr>
+                <th style="padding: 8px; width: 25%;">Trimestre</th>
+                <th style="padding: 8px; width: 37.5%; color: var(--current-year-color); font-weight: bold;">${data.currentYear.year}</th>
+                <th style="padding: 8px; width: 37.5%; color: var(--previous-year-color); font-weight: bold;">${data.previousYear.year}</th>
+            </tr>
+    `;
+    
+    // Add rows for each quarter
+    data.labels.forEach((quarter, idx) => {
+        const currentValue = data.currentYear.data[idx];
         const prevValue = data.previousYear.data[idx];
-        const prevHeight = (prevValue / maxValue) * 240;
-        const prevBar = document.createElement('div');
-        prevBar.style.width = '30px'; // Reduced width for better spacing
-        prevBar.style.height = `${prevHeight}px`;
-        prevBar.style.backgroundColor = 'var(--previous-year-color)';
-        prevBar.style.margin = '0 4px';
-        prevBar.style.borderRadius = '4px 4px 0 0';
-        prevBar.style.position = 'relative';
-
-        // Valor sobre la barra
-        const prevValueLabel = document.createElement('div');
-        prevValueLabel.textContent = formatCurrency(prevValue);
-        prevValueLabel.style.position = 'absolute';
-        prevValueLabel.style.top = '-24px';
-        prevValueLabel.style.left = '0';
-        prevValueLabel.style.right = '0';
-        prevValueLabel.style.textAlign = 'center';
-        prevValueLabel.style.fontSize = '12px';
-        prevValueLabel.style.fontWeight = '600';
-        prevValueLabel.style.whiteSpace = 'nowrap'; // Prevent wrapping
-        prevValueLabel.style.transform = 'translateY(-100%)'; // Move up to avoid overlap
-        prevBar.appendChild(prevValueLabel);
-        quarterGroup.appendChild(prevBar);
-
-        // Etiqueta del trimestre
-        const quarterLabel = document.createElement('div');
-        quarterLabel.style.position = 'absolute';
-        quarterLabel.style.bottom = '-30px';
-        quarterLabel.style.width = '100%';
-        quarterLabel.style.textAlign = 'center';
-        quarterLabel.style.fontSize = '14px';
-        quarterLabel.style.fontWeight = '500';
-        quarterLabel.textContent = label;
-        quarterGroup.appendChild(quarterLabel);
-
-        barsContainer.appendChild(quarterGroup);
+        
+        html += `
+            <tr>
+                <td style="padding: 12px; font-weight: bold;">${quarter}</td>
+                <td style="padding: 12px;">
+                    ${currentValue !== 'N/A' ? 
+                      `<div style="margin: 0 auto; width: 80%; background-color: var(--current-year-color); height: 24px; border-radius: 4px;"></div>
+                       <div style="margin-top: 5px; font-weight: 600;">${formatCurrency(currentValue)}</div>` 
+                      : 'N/A'}
+                </td>
+                <td style="padding: 12px;">
+                    <div style="margin: 0 auto; width: 80%; background-color: var(--previous-year-color); height: 24px; border-radius: 4px;"></div>
+                    <div style="margin-top: 5px; font-weight: 600;">${formatCurrency(prevValue)}</div>
+                </td>
+            </tr>
+        `;
     });
-
-    // Crear leyenda
-    const legend = document.createElement('div');
-    legend.className = 'chart-legend';
-    legend.style.marginTop = '40px';
-    legend.style.display = 'flex';
-    legend.style.justifyContent = 'center';
-    legend.style.gap = '20px';
-
-    const currentYearItem = document.createElement('div');
-    currentYearItem.className = 'legend-item';
-    currentYearItem.innerHTML = `<div class="legend-color" style="background-color: var(--current-year-color);"></div>${data.currentYear.year}`;
-
-    const prevYearItem = document.createElement('div');
-    prevYearItem.className = 'legend-item';
-    prevYearItem.innerHTML = `<div class="legend-color" style="background-color: var(--previous-year-color);"></div>${data.previousYear.year}`;
-
-    legend.appendChild(currentYearItem);
-    legend.appendChild(prevYearItem);
-    container.appendChild(barsContainer);
-    container.appendChild(legend);
+    
+    html += `</table>
+            <div class="chart-legend" style="margin-top: 20px">
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--current-year-color);"></div>
+                    ${data.currentYear.year}
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: var(--previous-year-color);"></div>
+                    ${data.previousYear.year}
+                </div>
+            </div>
+        </div>
+    `;
+    
+    container.innerHTML = html;
 }
 
 // Función para volver a la pantalla principal

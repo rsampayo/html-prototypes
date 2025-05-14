@@ -5,11 +5,11 @@
       <stop offset="100%" stop-color="#003399" />
     </linearGradient>
   </defs>
-  <circle cx="150" cy="150" r="140" fill="url(#gradient)" />
-  <path d="M50,150 L250,150 M150,50 L150,250 M80,80 L220,220 M80,220 L220,80" stroke="white" stroke-width="12" stroke-linecap="round" opacity="0.7" />
-  <g fill="white" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold">
-    <text x="150" y="160" font-size="26">TRANSPORTES</text>
-    <text x="150" y="190" font-size="26">FRONTERIZOS</text>
-  </g>
-  <path d="M80,110 C100,90 120,80 150,80 C180,80 200,90 220,110" stroke="white" stroke-width="8" fill="none" stroke-linecap="round" />
+  <circle cx="150" cy="150" r="120" fill="url(#gradient)" />
+  <!-- Simple TF letters -->
+  <text x="150" y="170" font-family="Arial, sans-serif" font-size="100" font-weight="bold" fill="white" text-anchor="middle">TF</text>
+  
+  <!-- Decorative elements -->
+  <path d="M100,80 L200,80" stroke="white" stroke-width="8" stroke-linecap="round" />
+  <path d="M100,220 L200,220" stroke="white" stroke-width="8" stroke-linecap="round" />
 </svg> 

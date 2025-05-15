@@ -12,12 +12,16 @@
         <header class="navigation-header">
             <div style="width: 44px;"></div> <!-- Espaciador para centrar el título -->
             <h1 class="navigation-title">Transport Company</h1>
-            <div style="width: 44px;"></div> <!-- Espaciador para centrar el título -->
+            <button id="filterToggle" class="filter-toggle-button" title="Mostrar/ocultar filtros">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                </svg>
+            </button>
         </header>
         <div class="date-info">Dashboard CEO - 15 de marzo, 2025 - 07:05 AM</div>
         
-        <!-- Filtros del dashboard -->
-        <div class="dashboard-filters">
+        <!-- Filtros del dashboard (inicialmente ocultos) -->
+        <div class="dashboard-filters" id="dashboardFilters">
             <div class="filter-group">
                 <label for="timeRange">Periodo:</label>
                 <select id="timeRange" class="filter-select">

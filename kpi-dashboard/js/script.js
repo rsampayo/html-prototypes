@@ -1396,7 +1396,25 @@ function calculateProgressPercent(currentValue, targetValue) {
     return Math.min(Math.max(percent, 0), 150);
 }
 
-// Add event listeners when the DOM is loaded
+// Add function to toggle filters visibility
+function toggleFilters() {
+    const filterToggleButton = document.getElementById('filterToggle');
+    const dashboardFilters = document.getElementById('dashboardFilters');
+    
+    if (dashboardFilters) {
+        if (dashboardFilters.classList.contains('visible')) {
+            // Hide filters
+            dashboardFilters.classList.remove('visible');
+            filterToggleButton.classList.remove('active');
+        } else {
+            // Show filters
+            dashboardFilters.classList.add('visible');
+            filterToggleButton.classList.add('active');
+        }
+    }
+}
+
+// Update document.addEventListener to include filter toggle functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Add click event listeners to all KPI cards
     document.querySelectorAll('.kpi-card').forEach(card => {
@@ -1409,42 +1427,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add click event listener to back button
     document.querySelector('.back-button').addEventListener('click', goBack);
     
-    // Ensure all KPIs have the necessary data for charts
-    Object.keys(kpiDetails).forEach(kpiId => {
-        const kpi = kpiDetails[kpiId];
-        
-        // Check if trendsBySegment exists and has proper data
-        if (!kpi.trendsBySegment || !kpi.trendsBySegment.series || kpi.trendsBySegment.series.length === 0) {
-            console.warn(`KPI ${kpiId} is missing trendsBySegment data`);
-            
-            // Create default data if needed
-            if (!kpi.trendsBySegment) {
-                kpi.trendsBySegment = {
-                    labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    series: [
-                        {
-                            name: 'Tendencia',
-                            color: '--system-blue',
-                            data: [70, 72, 75, 78, 80, 82, 84, 85, 86, 88, 89, 90]
-                        }
-                    ]
-                };
-            }
-        }
-        
-        // Check specific data for each KPI type
-        if (kpiId === 'utilizacion' && (!kpi.gaugeData || !kpi.fleetData)) {
-            console.warn('Utilización KPI is missing gauge or fleet data');
-        }
-        
-        if (kpiId === 'otd' && !kpi.donutData) {
-            console.warn('OTD KPI is missing donut chart data');
-        }
-        
-        if (kpiId === 'ventas' && !kpi.quarterlyComparison) {
-            console.warn('Ventas KPI is missing quarterly comparison data');
-        }
-    });
+    // Add click event listener to filter toggle button
+    const filterToggleButton = document.getElementById('filterToggle');
+    if (filterToggleButton) {
+        filterToggleButton.addEventListener('click', toggleFilters);
+    }
 
     // Configurar listener para el botón de filtros
     const applyFiltersButton = document.getElementById('applyFilters');

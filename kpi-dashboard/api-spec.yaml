@@ -131,6 +131,49 @@ paths:
       summary: Get combined dashboard data
       description: Returns all data required for the main dashboard in a single call
       operationId: getDashboardData
+      parameters:
+        - name: kpiIds
+          in: query
+          description: |
+            Optional comma-separated list of KPI IDs to include in response. 
+            If not provided, all KPIs will be returned.
+            Example: kpiIds=ventas,margen,utilizacion
+          required: false
+          schema:
+            type: string
+        - name: defaultTimeRange
+          in: query
+          description: Default time range to use for all KPIs unless individually specified
+          required: false
+          schema:
+            type: string
+            enum: [day, week, month, quarter, year, last_7_days, last_30_days, last_90_days, last_365_days, ytd]
+            default: month
+        - name: defaultCompareWith
+          in: query
+          description: Default comparison basis to use for all KPIs unless individually specified
+          required: false
+          schema:
+            type: string
+            enum: [goal, previous_period, same_period_last_year, last_year, last_month, last_week, last_day]
+            default: goal
+        - name: defaultCurrency
+          in: query
+          description: Default currency for all monetary KPIs unless individually specified
+          required: false
+          schema:
+            type: string
+            enum: [USD, MXN, EUR, CAD]
+            default: USD
+        - name: kpiSettings
+          in: query
+          description: |
+            JSON object specifying settings for individual KPIs.
+            Example: {"ventas":{"timeRange":"year","currency":"EUR"},"margen":{"compareWith":"same_period_last_year"}}
+          required: false
+          schema:
+            type: string
+            format: json
       responses:
         '200':
           description: Successful operation
@@ -138,6 +181,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DashboardData'
+        '400':
+          description: Bad request - invalid parameters
         '500':
           description: Internal server error
 components:
@@ -277,25 +322,55 @@ components:
         timestamp:
           type: string
           format: date-time
+          description: Timestamp when data was retrieved
+        appliedSettings:
+          type: object
+          description: The settings that were applied to generate this dashboard data
+          properties:
+            defaultTimeRange:
+              type: string
+              description: Default time range applied
+            defaultCompareWith:
+              type: string
+              description: Default comparison basis applied
+            defaultCurrency:
+              type: string
+              description: Default currency applied
+            kpiSettings:
+              type: object
+              description: Individual settings applied per KPI
+              additionalProperties:
+                type: object
+                properties:
+                  timeRange:
+                    type: string
+                  compareWith:
+                    type: string
+                  currency:
+                    type: string
         kpis:
           type: object
+          description: Map of KPI data
           additionalProperties:
             $ref: '#/components/schemas/KpiSummary'
         businessSegments:
           type: array
+          description: List of business segments
           items:
             type: string
-          description: List of all business segments
         overallPerformance:
           type: object
+          description: Overall performance metrics
           properties:
-            financialScore:
-              type: number
-            operationalScore:
-              type: number
-            safetyScore:
-              type: number
-          description: Overall company performance scores
+            financialScore: 
+              type: integer
+              description: Financial health score (0-100)
+            operationalScore: 
+              type: integer
+              description: Operational efficiency score (0-100)
+            safetyScore: 
+              type: integer
+              description: Safety and compliance score (0-100)
     SegmentPerformance:
       type: object
       properties:

@@ -1447,7 +1447,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Aplicar filtros al dashboard
 function applyDashboardFilters() {
-    // Obtener los valores de los filtros
+    // Obtener los valores de los filtros globales
     const timeRange = document.getElementById('timeRange').value;
     const compareWith = document.getElementById('compareWith').value;
     const currency = document.getElementById('currency').value;
@@ -1462,11 +1462,49 @@ function applyDashboardFilters() {
     // Mostrar un indicador de carga
     showLoadingIndicator();
 
-    // Simular una petición a la API para obtener datos actualizados
+    // En una implementación con API real, construiríamos los parámetros individuales por KPI
+    // Por ejemplo, si "ventas" necesita EUR pero el resto usa la moneda por defecto
+    const kpiSettings = {};
+    
+    // Este es un ejemplo de cómo podríamos configurar diferentes ajustes por KPI
+    // En una implementación real, estos valores podrían venir de la interfaz de usuario
+    // Por ahora, simplemente demostramos la capacidad enviando algunos ajustes personalizados
+    
+    // Por ejemplo, definamos que "ventas" siempre use EUR
+    // y "margen" siempre compare con el mismo período del año anterior
+    kpiSettings['ventas'] = {
+        currency: 'EUR'
+    };
+    
+    kpiSettings['margen'] = {
+        compareWith: 'same_period_last_year'
+    };
+    
+    // Construir la URL con los parámetros
+    const apiUrl = '/v1/dashboard?' + 
+        `defaultTimeRange=${encodeURIComponent(timeRange)}` +
+        `&defaultCompareWith=${encodeURIComponent(compareWith)}` +
+        `&defaultCurrency=${encodeURIComponent(currency)}` +
+        `&kpiSettings=${encodeURIComponent(JSON.stringify(kpiSettings))}`;
+    
+    // Simular una petición a la API
     setTimeout(() => {
-        // En una implementación real, aquí se haría una llamada a la API con los nuevos filtros
-        // fetchDashboardData(timeRange, compareWith, currency)
-        //    .then(data => updateDashboard(data));
+        console.log('Calling API with URL:', apiUrl);
+        
+        // En una implementación real, aquí haríamos la llamada fetch:
+        /*
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                updateDashboardWithApiData(data);
+                hideLoadingIndicator();
+            })
+            .catch(error => {
+                console.error('Error fetching dashboard data:', error);
+                hideLoadingIndicator();
+                alert('Error al cargar los datos. Por favor intente nuevamente.');
+            });
+        */
         
         // Por ahora simulamos la actualización con datos de ejemplo
         updateDashboardWithMockData();
@@ -1474,6 +1512,73 @@ function applyDashboardFilters() {
         // Ocultar el indicador de carga
         hideLoadingIndicator();
     }, 800); // Simular tiempo de carga
+}
+
+// Nueva función para actualizar el dashboard con datos de la API
+function updateDashboardWithApiData(data) {
+    // Obtener todas las tarjetas KPI
+    const kpiCards = document.querySelectorAll('.kpi-card');
+    
+    // Actualizar cada tarjeta con los datos recibidos
+    kpiCards.forEach(card => {
+        const kpiId = card.getAttribute('data-id');
+        
+        // Si tenemos datos para este KPI en la respuesta
+        if (data.kpis && data.kpis[kpiId]) {
+            const kpiData = data.kpis[kpiId];
+            const valueElement = card.querySelector('.kpi-value');
+            const contextElement = card.querySelector('.kpi-context');
+            const statusElement = card.querySelector('.kpi-status');
+            
+            // Actualizar el valor
+            valueElement.innerHTML = kpiData.value.includes('<') ? kpiData.value : formatKpiValue(kpiData.value);
+            
+            // Actualizar el contexto
+            contextElement.textContent = kpiData.context;
+            
+            // Actualizar el estado
+            statusElement.textContent = kpiData.statusText;
+            
+            // Actualizar las clases de estado
+            statusElement.className = 'kpi-status';
+            statusElement.classList.add('status-' + kpiData.status);
+            
+            // Actualizar el estado de la tarjeta
+            card.setAttribute('data-status', kpiData.status);
+        }
+    });
+    
+    // Actualizar la fecha y hora
+    const dateInfoElement = document.querySelector('.date-info');
+    const timestamp = new Date(data.timestamp);
+    const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+    const timeOptions = { hour: '2-digit', minute: '2-digit' };
+    const formattedDate = timestamp.toLocaleDateString('es-ES', dateOptions);
+    const formattedTime = timestamp.toLocaleTimeString('es-ES', timeOptions);
+    dateInfoElement.textContent = `Dashboard CEO - ${formattedDate} - ${formattedTime}`;
+    
+    // Mostrar los ajustes aplicados en la consola (para depuración)
+    console.log('Applied settings:', data.appliedSettings);
+}
+
+// Función auxiliar para formatear valores de KPI
+function formatKpiValue(value) {
+    // Para valores que ya vienen con etiquetas HTML
+    if (typeof value === 'string' && value.includes('<span')) {
+        return value;
+    }
+    
+    // Para valores con unidades
+    if (typeof value === 'string') {
+        // Buscar patrones comunes como "4.85M$" o "12.5%"
+        const matches = value.match(/^([\d,.]+)(.*)$/);
+        if (matches && matches.length >= 3) {
+            return `${matches[1]}<span class="unit">${matches[2]}</span>`;
+        }
+    }
+    
+    // Valor sin formato especial
+    return value;
 }
 
 // Mostrar un indicador de carga simple

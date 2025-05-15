@@ -15,6 +15,48 @@
             <div style="width: 44px;"></div> <!-- Espaciador para centrar el título -->
         </header>
         <div class="date-info">Dashboard CEO - 15 de marzo, 2025 - 07:05 AM</div>
+        
+        <!-- Filtros del dashboard -->
+        <div class="dashboard-filters">
+            <div class="filter-group">
+                <label for="timeRange">Periodo:</label>
+                <select id="timeRange" class="filter-select">
+                    <option value="month">Mes actual</option>
+                    <option value="week">Semana actual</option>
+                    <option value="day">Día actual</option>
+                    <option value="quarter">Trimestre actual</option>
+                    <option value="year">Año actual</option>
+                    <option value="last_7_days">Últimos 7 días</option>
+                    <option value="last_30_days">Últimos 30 días</option>
+                    <option value="last_90_days">Últimos 90 días</option>
+                    <option value="last_365_days">Últimos 365 días</option>
+                    <option value="ytd">Año a la fecha</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="compareWith">Comparar con:</label>
+                <select id="compareWith" class="filter-select">
+                    <option value="goal">Meta</option>
+                    <option value="previous_period">Período anterior</option>
+                    <option value="same_period_last_year">Mismo período año anterior</option>
+                    <option value="last_year">Año anterior</option>
+                    <option value="last_month">Mes anterior</option>
+                    <option value="last_week">Semana anterior</option>
+                    <option value="last_day">Día anterior</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="currency">Moneda:</label>
+                <select id="currency" class="filter-select">
+                    <option value="USD">USD ($)</option>
+                    <option value="MXN">MXN (MX$)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="CAD">CAD (CA$)</option>
+                </select>
+            </div>
+            <button id="applyFilters" class="filter-button">Aplicar</button>
+        </div>
+        
         <main class="kpi-grid">
             <!-- Nuevo KPI de Ventas Totales -->
             <div class="kpi-card" data-status="good" data-id="ventas">

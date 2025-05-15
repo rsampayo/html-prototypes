@@ -530,6 +530,13 @@ const kpiDetails = {
     }
 };
 
+// Variables globales para los filtros
+let currentFilters = {
+    timeRange: 'month',
+    compareWith: 'goal',
+    currency: 'USD'
+};
+
 // Función para mostrar la pantalla de detalle
 function showDetail(kpiId) {
     console.log(`Showing detail for KPI: ${kpiId}`);
@@ -1438,4 +1445,282 @@ document.addEventListener('DOMContentLoaded', function() {
             console.warn('Ventas KPI is missing quarterly comparison data');
         }
     });
-}); 
+
+    // Configurar listener para el botón de filtros
+    const applyFiltersButton = document.getElementById('applyFilters');
+    if (applyFiltersButton) {
+        applyFiltersButton.addEventListener('click', applyDashboardFilters);
+    }
+
+    // Inicializar selectores de filtros con valores predeterminados
+    document.getElementById('timeRange').value = currentFilters.timeRange;
+    document.getElementById('compareWith').value = currentFilters.compareWith;
+    document.getElementById('currency').value = currentFilters.currency;
+});
+
+// Aplicar filtros al dashboard
+function applyDashboardFilters() {
+    // Obtener los valores de los filtros
+    const timeRange = document.getElementById('timeRange').value;
+    const compareWith = document.getElementById('compareWith').value;
+    const currency = document.getElementById('currency').value;
+
+    // Actualizar variables globales
+    currentFilters = {
+        timeRange,
+        compareWith,
+        currency
+    };
+
+    // Mostrar un indicador de carga
+    showLoadingIndicator();
+
+    // Simular una petición a la API para obtener datos actualizados
+    setTimeout(() => {
+        // En una implementación real, aquí se haría una llamada a la API con los nuevos filtros
+        // fetchDashboardData(timeRange, compareWith, currency)
+        //    .then(data => updateDashboard(data));
+        
+        // Por ahora simulamos la actualización con datos de ejemplo
+        updateDashboardWithMockData();
+        
+        // Ocultar el indicador de carga
+        hideLoadingIndicator();
+    }, 800); // Simular tiempo de carga
+}
+
+// Mostrar un indicador de carga simple
+function showLoadingIndicator() {
+    // Verificar si ya existe un indicador de carga
+    if (document.getElementById('loading-indicator')) return;
+    
+    // Crear un indicador de carga
+    const loadingIndicator = document.createElement('div');
+    loadingIndicator.id = 'loading-indicator';
+    loadingIndicator.className = 'loading-overlay';
+    loadingIndicator.innerHTML = `
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Actualizando datos...</div>
+    `;
+    document.body.appendChild(loadingIndicator);
+}
+
+// Ocultar el indicador de carga
+function hideLoadingIndicator() {
+    const loadingIndicator = document.getElementById('loading-indicator');
+    if (loadingIndicator) {
+        loadingIndicator.classList.add('fade-out');
+        setTimeout(() => {
+            loadingIndicator.remove();
+        }, 300);
+    }
+}
+
+// Actualizar el dashboard con datos simulados basados en los filtros
+function updateDashboardWithMockData() {
+    // Obtener todas las tarjetas KPI
+    const kpiCards = document.querySelectorAll('.kpi-card');
+    
+    // Mapear valores de moneda a símbolos
+    const currencySymbols = {
+        'USD': '$',
+        'MXN': 'MX$',
+        'EUR': '€',
+        'CAD': 'CA$'
+    };
+    
+    // Obtener el símbolo de moneda seleccionado
+    const currencySymbol = currencySymbols[currentFilters.currency];
+    
+    // Datos simulados para diferentes períodos de tiempo
+    const mockData = {
+        // Ventas totales en diferentes períodos y monedas
+        ventas: {
+            day: { value: 158000, goal: 150000, prev: 145000, unit: currencySymbol },
+            week: { value: 1050000, goal: 980000, prev: 965000, unit: currencySymbol },
+            month: { value: 4850000, goal: 4500000, prev: 4450000, unit: currencySymbol },
+            quarter: { value: 14950000, goal: 14500000, prev: 14100000, unit: currencySymbol },
+            year: { value: 58600000, goal: 57000000, prev: 55800000, unit: currencySymbol },
+            status: 'good'
+        },
+        // Margen operativo
+        margen: {
+            day: { value: 12.8, goal: 12.0, prev: 11.5, unit: '%' },
+            week: { value: 12.5, goal: 12.0, prev: 11.8, unit: '%' },
+            month: { value: 12.5, goal: 12.0, prev: 11.8, unit: '%' },
+            quarter: { value: 12.2, goal: 12.0, prev: 11.5, unit: '%' },
+            year: { value: 11.9, goal: 12.0, prev: 11.5, unit: '%' },
+            status: 'good'
+        },
+        // Utilización de flota
+        utilizacion: {
+            day: { value: 91, goal: 85, prev: 87, unit: '%' },
+            week: { value: 89, goal: 85, prev: 86, unit: '%' },
+            month: { value: 88, goal: 85, prev: 85, unit: '%' },
+            quarter: { value: 87, goal: 85, prev: 84, unit: '%' },
+            year: { value: 86, goal: 85, prev: 83, unit: '%' },
+            status: 'good'
+        },
+        // Ingreso por kilómetro
+        rpm: {
+            day: { value: 2.35, goal: 2.25, prev: 2.20, unit: currencySymbol + '/km' },
+            week: { value: 2.30, goal: 2.25, prev: 2.22, unit: currencySymbol + '/km' },
+            month: { value: 2.25, goal: 2.25, prev: 2.20, unit: currencySymbol + '/km' },
+            quarter: { value: 2.22, goal: 2.25, prev: 2.18, unit: currencySymbol + '/km' },
+            year: { value: 2.20, goal: 2.25, prev: 2.15, unit: currencySymbol + '/km' },
+            status: 'good'
+        },
+        // Costo por kilómetro
+        'costo-km': {
+            day: { value: 1.92, goal: 1.85, prev: 1.90, unit: currencySymbol + '/km' },
+            week: { value: 1.94, goal: 1.85, prev: 1.88, unit: currencySymbol + '/km' },
+            month: { value: 1.95, goal: 1.85, prev: 1.86, unit: currencySymbol + '/km' },
+            quarter: { value: 1.90, goal: 1.85, prev: 1.84, unit: currencySymbol + '/km' },
+            year: { value: 1.86, goal: 1.85, prev: 1.82, unit: currencySymbol + '/km' },
+            status: 'bad'
+        },
+        // Costo de mantenimiento por kilómetro
+        'costo-mtto': {
+            day: { value: 0.17, goal: 0.18, prev: 0.18, unit: currencySymbol + '/km' },
+            week: { value: 0.18, goal: 0.18, prev: 0.18, unit: currencySymbol + '/km' },
+            month: { value: 0.18, goal: 0.18, prev: 0.18, unit: currencySymbol + '/km' },
+            quarter: { value: 0.19, goal: 0.18, prev: 0.17, unit: currencySymbol + '/km' },
+            year: { value: 0.18, goal: 0.18, prev: 0.17, unit: currencySymbol + '/km' },
+            status: 'neutral'
+        }
+    };
+    
+    // Adaptar los datos de ejemplo a otros períodos
+    const timeRangeMapping = {
+        'day': 'day',
+        'week': 'week',
+        'month': 'month',
+        'quarter': 'quarter',
+        'year': 'year',
+        'last_7_days': 'week',
+        'last_30_days': 'month',
+        'last_90_days': 'quarter',
+        'last_365_days': 'year',
+        'ytd': 'quarter'
+    };
+    
+    // Obtener el período correspondiente para los datos de ejemplo
+    const dataPeriod = timeRangeMapping[currentFilters.timeRange] || 'month';
+    
+    // Actualizar cada tarjeta con los nuevos datos
+    kpiCards.forEach(card => {
+        const kpiId = card.getAttribute('data-id');
+        
+        // Si tenemos datos para este KPI
+        if (mockData[kpiId]) {
+            const kpiData = mockData[kpiId][dataPeriod];
+            const valueElement = card.querySelector('.kpi-value');
+            const contextElement = card.querySelector('.kpi-context');
+            const statusElement = card.querySelector('.kpi-status');
+            
+            // Valor numérico formateado
+            let formattedValue;
+            
+            // Para valores grandes, usar notación abreviada (M, K)
+            if (kpiData.value >= 1000000) {
+                formattedValue = (kpiData.value / 1000000).toFixed(2) + 'M';
+            } else if (kpiData.value >= 1000) {
+                formattedValue = (kpiData.value / 1000).toFixed(1) + 'K';
+            } else {
+                formattedValue = kpiData.value.toString();
+            }
+            
+            // Actualizar el valor
+            valueElement.innerHTML = formattedValue + `<span class="unit">${kpiData.unit}</span>`;
+            
+            // Actualizar el contexto según la comparación seleccionada
+            let compareValue, compareText;
+            if (currentFilters.compareWith === 'goal' || currentFilters.compareWith.includes('meta')) {
+                compareValue = kpiData.goal;
+                compareText = 'Meta';
+            } else {
+                compareValue = kpiData.prev;
+                compareText = 'Periodo anterior';
+            }
+            
+            // Formatear el valor de comparación
+            let formattedCompareValue;
+            if (compareValue >= 1000000) {
+                formattedCompareValue = (compareValue / 1000000).toFixed(2) + 'M';
+            } else if (compareValue >= 1000) {
+                formattedCompareValue = (compareValue / 1000).toFixed(1) + 'K';
+            } else {
+                formattedCompareValue = compareValue.toString();
+            }
+            
+            // Actualizar el texto de contexto
+            contextElement.textContent = `${getTimeRangeLabel(currentFilters.timeRange)} (${compareText}: ${formattedCompareValue}${kpiData.unit})`;
+            
+            // Calcular porcentaje de diferencia para el estado
+            const diff = ((kpiData.value - compareValue) / compareValue * 100).toFixed(1);
+            let statusText, statusClass;
+            
+            // Diferentes lógicas para diferentes KPIs (por ejemplo, costo menor es mejor)
+            if (kpiId === 'costo-km' || kpiId === 'costo-mtto') {
+                if (diff <= -1) {
+                    statusText = `${Math.abs(diff)}% bajo ${compareText.toLowerCase()}`;
+                    statusClass = 'status-good';
+                } else if (diff <= 1) {
+                    statusText = `Estable vs ${compareText.toLowerCase()}`;
+                    statusClass = 'status-neutral';
+                } else {
+                    statusText = `${diff}% sobre ${compareText.toLowerCase()}`;
+                    statusClass = 'status-bad';
+                }
+            } else {
+                if (diff >= 1) {
+                    statusText = `${diff}% sobre ${compareText.toLowerCase()}`;
+                    statusClass = 'status-good';
+                } else if (diff >= -1) {
+                    statusText = `Estable vs ${compareText.toLowerCase()}`;
+                    statusClass = 'status-neutral';
+                } else {
+                    statusText = `${Math.abs(diff)}% bajo ${compareText.toLowerCase()}`;
+                    statusClass = 'status-warning';
+                }
+            }
+            
+            // Actualizar el texto de estado
+            statusElement.textContent = statusText;
+            
+            // Actualizar las clases de estado
+            statusElement.className = 'kpi-status';
+            statusElement.classList.add(statusClass);
+            
+            // Actualizar el estado de la tarjeta
+            card.setAttribute('data-status', statusClass.replace('status-', ''));
+        }
+    });
+    
+    // Actualizar la fecha y hora
+    const dateInfoElement = document.querySelector('.date-info');
+    const now = new Date();
+    const dateOptions = { day: 'numeric', month: 'long', year: 'numeric' };
+    const timeOptions = { hour: '2-digit', minute: '2-digit' };
+    const formattedDate = now.toLocaleDateString('es-ES', dateOptions);
+    const formattedTime = now.toLocaleTimeString('es-ES', timeOptions);
+    dateInfoElement.textContent = `Dashboard CEO - ${formattedDate} - ${formattedTime}`;
+}
+
+// Función auxiliar para obtener una etiqueta descriptiva del período de tiempo
+function getTimeRangeLabel(timeRange) {
+    const labels = {
+        'day': 'Día actual',
+        'week': 'Semana actual',
+        'month': 'Mes actual',
+        'quarter': 'Trimestre actual',
+        'year': 'Año actual',
+        'last_7_days': 'Últimos 7 días',
+        'last_30_days': 'Últimos 30 días',
+        'last_90_days': 'Últimos 90 días',
+        'last_365_days': 'Últimos 365 días',
+        'ytd': 'Año a la fecha'
+    };
+    
+    return labels[timeRange] || 'Período actual';
+}

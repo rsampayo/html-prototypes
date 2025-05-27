@@ -1,0 +1,394 @@
+openapi: 3.0.3
+info:
+  title: Transport Company KPI Dashboard API
+  description: API for retrieving KPI data for the Transport Company dashboard
+  version: 1.0.0
+servers:
+  - url: https://api.transport-company.com/v1
+    description: Production API server
+paths:
+  /kpis:
+    get:
+      summary: Get all KPIs summary data
+      description: Returns summary data for all KPIs on the dashboard
+      operationId: getAllKpisSummary
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KpiSummaryList'
+        '500':
+          description: Internal server error
+  /kpis/{kpiId}:
+    get:
+      summary: Get detailed data for a specific KPI
+      description: Returns all detailed information for a specific KPI, including trends and segments
+      operationId: getKpiDetail
+      parameters:
+        - name: kpiId
+          in: path
+          description: ID of the KPI to retrieve
+          required: true
+          schema:
+            type: string
+            enum: [ventas, margen, utilizacion, otd, cruce, costo-km, rpm, ingreso-camion, costo-mtto, dso, seguridad, satisfaccion]
+        - name: timeRange
+          in: query
+          description: The time range to consider for the KPI data
+          required: false
+          schema:
+            type: string
+            enum: [day, week, month, quarter, year, last_7_days, last_30_days, last_90_days, last_365_days, ytd]
+            default: month
+        - name: compareWith
+          in: query
+          description: The basis for comparison
+          required: false
+          schema:
+            type: string
+            enum: [goal, previous_period, same_period_last_year, last_year, last_month, last_week, last_day]
+            default: goal
+        - name: currency
+          in: query
+          description: Currency to display monetary values (for financial KPIs)
+          required: false
+          schema:
+            type: string
+            enum: [USD, MXN, EUR, CAD]
+            default: USD
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KpiDetail'
+        '404':
+          description: KPI not found
+        '500':
+          description: Internal server error
+  /kpis/segments:
+    get:
+      summary: Get segment performance across multiple KPIs
+      description: Returns performance data grouped by business segments
+      operationId: getSegmentPerformance
+      parameters:
+        - name: segment
+          in: query
+          description: Optional filter for specific segment
+          required: false
+          schema:
+            type: string
+            enum: [Foráneo, Cruce, Local, Marítimo]
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SegmentPerformance'
+        '500':
+          description: Internal server error
+  /metrics/trends:
+    get:
+      summary: Get trend data for KPIs
+      description: Returns time-based trend data for KPIs with optional filtering
+      operationId: getMetricTrends
+      parameters:
+        - name: kpiIds
+          in: query
+          description: Comma-separated list of KPI IDs to retrieve trends for
+          required: false
+          schema:
+            type: string
+        - name: period
+          in: query
+          description: Time period for trends
+          required: false
+          schema:
+            type: string
+            enum: [monthly, quarterly, yearly]
+            default: monthly
+        - name: segment
+          in: query
+          description: Filter by business segment
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrendData'
+        '500':
+          description: Internal server error
+  /dashboard:
+    get:
+      summary: Get combined dashboard data
+      description: Returns all data required for the main dashboard in a single call
+      operationId: getDashboardData
+      parameters:
+        - name: kpiIds
+          in: query
+          description: |
+            Optional comma-separated list of KPI IDs to include in response. 
+            If not provided, all KPIs will be returned.
+            Example: kpiIds=ventas,margen,utilizacion
+          required: false
+          schema:
+            type: string
+        - name: defaultTimeRange
+          in: query
+          description: Default time range to use for all KPIs unless individually specified
+          required: false
+          schema:
+            type: string
+            enum: [day, week, month, quarter, year, last_7_days, last_30_days, last_90_days, last_365_days, ytd]
+            default: month
+        - name: defaultCompareWith
+          in: query
+          description: Default comparison basis to use for all KPIs unless individually specified
+          required: false
+          schema:
+            type: string
+            enum: [goal, previous_period, same_period_last_year, last_year, last_month, last_week, last_day]
+            default: goal
+        - name: defaultCurrency
+          in: query
+          description: Default currency for all monetary KPIs unless individually specified
+          required: false
+          schema:
+            type: string
+            enum: [USD, MXN, EUR, CAD]
+            default: USD
+        - name: kpiSettings
+          in: query
+          description: |
+            JSON object specifying settings for individual KPIs.
+            Example: {"ventas":{"timeRange":"year","currency":"EUR"},"margen":{"compareWith":"same_period_last_year"}}
+          required: false
+          schema:
+            type: string
+            format: json
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardData'
+        '400':
+          description: Bad request - invalid parameters
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    KpiSummaryList:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp when data was retrieved
+        kpis:
+          type: array
+          items:
+            $ref: '#/components/schemas/KpiSummary'
+    KpiSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the KPI
+        title:
+          type: string
+          description: Display title of the KPI
+        value:
+          type: string
+          description: Current value of the KPI with unit
+        numericValue:
+          type: number
+          description: Numeric representation of the value for calculations
+        status:
+          type: string
+          enum: [good, warning, bad, neutral]
+          description: Status indicator
+        statusText:
+          type: string
+          description: Text describing the status
+        context:
+          type: string
+          description: Contextual information about the KPI
+    KpiDetail:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        value:
+          type: string
+        numericValue:
+          type: number
+        status:
+          type: string
+        statusText:
+          type: string
+        context:
+          type: string
+        description:
+          type: string
+        timeRange:
+          type: string
+          description: The time range for this KPI data
+          enum: [day, week, month, quarter, year, last_7_days, last_30_days, last_90_days, last_365_days, ytd]
+        comparisonBasis:
+          type: string
+          description: What the KPI is being compared against
+          enum: [goal, previous_period, same_period_last_year, last_year, last_month, last_week, last_day]
+        currency:
+          type: string
+          description: Currency used for monetary values
+          enum: [USD, MXN, EUR, CAD]
+        segments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Segment'
+        trendsBySegment:
+          $ref: '#/components/schemas/TrendData'
+        metrics:
+          type: array
+          items:
+            $ref: '#/components/schemas/Metric'
+        additionalData:
+          type: object
+          description: Additional KPI-specific data structures
+    Segment:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the business segment
+        value:
+          type: string
+          description: Value for the segment
+        trend:
+          type: string
+          enum: [up, down, neutral]
+          description: Trend indicator
+        color:
+          type: string
+          description: Color variable for the segment
+    TrendData:
+      type: object
+      properties:
+        labels:
+          type: array
+          items:
+            type: string
+          description: Time period labels (months, quarters, etc.)
+        series:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Name of the series
+              color:
+                type: string
+                description: Color variable for the series
+              data:
+                type: array
+                items:
+                  type: number
+                description: Data points for the series
+    Metric:
+      type: object
+      properties:
+        label:
+          type: string
+          description: Label for the metric
+        value:
+          type: string
+          description: Value of the metric
+    DashboardData:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp when data was retrieved
+        appliedSettings:
+          type: object
+          description: The settings that were applied to generate this dashboard data
+          properties:
+            defaultTimeRange:
+              type: string
+              description: Default time range applied
+            defaultCompareWith:
+              type: string
+              description: Default comparison basis applied
+            defaultCurrency:
+              type: string
+              description: Default currency applied
+            kpiSettings:
+              type: object
+              description: Individual settings applied per KPI
+              additionalProperties:
+                type: object
+                properties:
+                  timeRange:
+                    type: string
+                  compareWith:
+                    type: string
+                  currency:
+                    type: string
+        kpis:
+          type: object
+          description: Map of KPI data
+          additionalProperties:
+            $ref: '#/components/schemas/KpiSummary'
+        businessSegments:
+          type: array
+          description: List of business segments
+          items:
+            type: string
+        overallPerformance:
+          type: object
+          description: Overall performance metrics
+          properties:
+            financialScore: 
+              type: integer
+              description: Financial health score (0-100)
+            operationalScore: 
+              type: integer
+              description: Operational efficiency score (0-100)
+            safetyScore: 
+              type: integer
+              description: Safety and compliance score (0-100)
+    SegmentPerformance:
+      type: object
+      properties:
+        segments:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              metrics:
+                type: object
+                additionalProperties:
+                  type: object
+                  properties:
+                    value:
+                      type: string
+                    trend:
+                      type: string
+                    status:
+                      type: string 

@@ -184,6 +184,48 @@
             text-align: center;
         }
 
+        .logo-navio {
+            max-width: 150px;
+            margin: 0 auto 30px auto;
+            display: block;
+        }
+
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .client-logo {
+            max-width: 180px;
+            max-height: 80px;
+            object-fit: contain;
+            filter: none;
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .client-logo:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .slide.white-bg {
+            background-color: var(--card-background);
+            color: var(--text-color);
+        }
+
+        .slide.white-bg h2 {
+            color: var(--text-color);
+        }
+
+        .slide.white-bg .highlight {
+            color: var(--primary-color);
+        }
+
         .roi-emphasis {
             background: rgba(56, 152, 236, 0.1);
             border-left: 4px solid var(--primary-color);
@@ -230,6 +272,7 @@
 
         <!-- Slide 1: Portada Ejecutiva -->
         <section class="slide">
+            <img src="../logo_navio_dark.png" alt="Navi.io Logo" class="logo-navio">
             <h1 class="slide-title-main">Navi.io: <span class="highlight">Transformación Digital</span> que Impulsa Resultados</h1>
             <p class="slide-subtitle">Tecnología estratégica para maximizar la eficiencia operativa y el crecimiento de su empresa transportista.</p>
             <p class="text-center" style="font-size: 0.9em; color: var(--secondary-text-light);">Presentación Ejecutiva para Dirección General</p>
@@ -396,9 +439,9 @@
             <p class="text-center" style="margin-bottom: 50px;">Empresas líderes del sector transporte ya han transformado sus operaciones con nuestra plataforma</p>
             
             <div class="clients-grid">
-                <img src="logo-clientes/xpress.png" alt="Xpress" class="client-logo">
-                <img src="logo-clientes/trebol.png" alt="Trébol" class="client-logo">
-                <img src="logo-clientes/borderfreight.png" alt="Border Freight" class="client-logo">
+                <img src="../logo-clientes/xpress.png" alt="Xpress" class="client-logo">
+                <img src="../logo-clientes/trebol.png" alt="Trébol" class="client-logo">
+                <img src="../logo-clientes/borderfreight.png" alt="Border Freight" class="client-logo">
             </div>
             
             <p class="text-center" style="color: var(--secondary-text-color); font-style: italic; margin-top: 40px;">

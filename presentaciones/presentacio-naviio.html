@@ -15,7 +15,7 @@
             --text-light: #ffffff; /* Blanco para contraste en fondo oscuro */
             --secondary-text-color: #999999; /* Gris secundario de Navi.io */
             --secondary-text-light: #cccccc; /* Gris claro para fondo oscuro */
-            --background-color: var(--dark-blue); /* Fondo azul oscuro de Navi.io */
+            --background-color: #f3f3f3; /* Fondo general neutro */
             --card-background: #ffffff; /* Blanco para tarjetas */
             --card-alt-background: #fafafa; /* Fondo alternativo de Navi.io */
             --border-color: #cccccc; /* Gris para bordes de Navi.io */
@@ -29,7 +29,7 @@
             font-family: 'Inter', sans-serif;
             margin: 0;
             background-color: var(--background-color);
-            color: var(--text-light);
+            color: var(--text-color);
             overflow-x: hidden; /* Prevenir scroll horizontal por si acaso */
         }
 
@@ -45,9 +45,9 @@
             min-height: 80vh; /* Menor altura para que quepa más en un scroll */
             padding: 60px 40px;
             margin-bottom: 40px; /* Espacio entre "diapositivas" en el scroll */
-            background-color: var(--card-background);
+            background-color: var(--dark-blue); /* Fondo azul oscuro de Navi.io para cada slide */
             border-radius: 18px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             display: flex;
             flex-direction: column;
             justify-content: center;

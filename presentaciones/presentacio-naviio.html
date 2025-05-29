@@ -9,10 +9,13 @@
         :root {
             --primary-color: #3898EC; /* Azul principal de Navi.io */
             --secondary-primary: #0082f3; /* Azul secundario de Navi.io */
+            --dark-blue: #142d47; /* Azul oscuro de identidad Navi.io */
             --text-color: #333333; /* Negro principal de Navi.io */
             --text-dark: #222222; /* Negro más oscuro de Navi.io */
+            --text-light: #ffffff; /* Blanco para contraste en fondo oscuro */
             --secondary-text-color: #999999; /* Gris secundario de Navi.io */
-            --background-color: #f3f3f3; /* Gris claro de fondo de Navi.io */
+            --secondary-text-light: #cccccc; /* Gris claro para fondo oscuro */
+            --background-color: var(--dark-blue); /* Fondo azul oscuro de Navi.io */
             --card-background: #ffffff; /* Blanco para tarjetas */
             --card-alt-background: #fafafa; /* Fondo alternativo de Navi.io */
             --border-color: #cccccc; /* Gris para bordes de Navi.io */
@@ -26,7 +29,7 @@
             font-family: 'Inter', sans-serif;
             margin: 0;
             background-color: var(--background-color);
-            color: var(--text-color);
+            color: var(--text-light);
             overflow-x: hidden; /* Prevenir scroll horizontal por si acaso */
         }
 
@@ -58,7 +61,7 @@
         .slide-title-main {
             font-size: 2.8em; /* 44px */
             font-weight: 700;
-            color: var(--primary-color);
+            color: var(--text-light);
             margin-bottom: 10px;
             text-align: center;
         }
@@ -66,7 +69,7 @@
         .slide-subtitle {
             font-size: 1.5em; /* 24px */
             font-weight: 500;
-            color: var(--secondary-text-color);
+            color: var(--secondary-text-light);
             margin-bottom: 40px;
             text-align: center;
         }
@@ -74,14 +77,14 @@
         h1 { /* Para títulos principales dentro de la diapositiva */
             font-size: 2.5em; /* 40px */
             font-weight: 700;
-            color: var(--primary-color);
+            color: var(--text-light);
             margin-bottom: 15px;
         }
 
         h2 { /* Para subtítulos o secciones */
             font-size: 1.75em; /* 28px */
             font-weight: 600;
-            color: var(--text-color);
+            color: var(--text-light);
             margin-top: 30px;
             margin-bottom: 10px;
         }
@@ -89,7 +92,7 @@
         h3 { /* Para encabezados menores */
             font-size: 1.25em; /* 20px */
             font-weight: 600;
-            color: var(--text-color);
+            color: var(--text-color); /* Mantener oscuro en las tarjetas */
             margin-top: 20px;
             margin-bottom: 8px;
         }
@@ -97,7 +100,7 @@
         h4 { /* Para puntos específicos */
             font-size: 1.1em; /* 18px */
             font-weight: 500;
-            color: var(--secondary-text-color);
+            color: var(--secondary-text-light);
             margin-top: 15px;
             margin-bottom: 5px;
         }
@@ -105,7 +108,7 @@
         p, li {
             font-size: 1.1em; /* 18px */
             line-height: 1.6;
-            color: var(--text-color);
+            color: var(--text-light);
             margin-bottom: 15px;
         }
         
@@ -195,6 +198,11 @@
             display: block;
         }
 
+        /* Estilos específicos para contenido de tarjetas */
+        .card p, .card li {
+            color: var(--text-color); /* Texto oscuro en tarjetas blancas */
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             body {
@@ -247,7 +255,7 @@
             <!-- Podrías poner un logo aquí si tienes la URL o un SVG simple, ej: <img src="https://navi.io/logo.svg" alt="Naviio Logo" class="logo-navio"> -->
             <h1 class="slide-title-main">Navi.io: Su Aliado Estratégico en <span class="highlight">Tecnología para el Transporte</span></h1>
             <p class="slide-subtitle">Desarrollo a la medida e integración de sistemas para potenciar su operación.</p>
-            <p class="text-center" style="font-size: 0.9em; color: var(--secondary-text-color);">Una introducción para el equipo de Sistemas y Desarrollo.</p>
+            <p class="text-center" style="font-size: 0.9em; color: var(--secondary-text-light);">Una introducción para el equipo de Sistemas y Desarrollo.</p>
         </section>
 
         <!-- Slide 2: Quiénes Somos y Nuestro Enfoque -->
@@ -357,7 +365,7 @@
             <p class="text-center" style="font-size: 1.3em; font-weight: 600; margin-top: 30px;">
                 Proponemos una breve reunión virtual para profundizar en estos puntos.
             </p>
-            <p class="text-center" style="margin-top:30px; color: var(--secondary-text-color);">
+            <p class="text-center" style="margin-top:30px; color: var(--secondary-text-light);">
                 Ramón Sampayo <br> <!-- Puedes completar tu apellido aquí -->
                 Socio Fundador, Navi.io<br>
                 ramon@navi.io | +1 (956) 909-9245

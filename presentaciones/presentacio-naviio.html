@@ -7,15 +7,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #007AFF; /* Azul Apple */
-            --text-color: #1d1d1f; /* Negro Apple casi puro */
-            --secondary-text-color: #6e6e73; /* Gris secundario Apple */
-            --background-color: #f5f5f7; /* Gris claro Apple para fondo */
+            --primary-color: #3898EC; /* Azul principal de Navi.io */
+            --secondary-primary: #0082f3; /* Azul secundario de Navi.io */
+            --text-color: #333333; /* Negro principal de Navi.io */
+            --text-dark: #222222; /* Negro más oscuro de Navi.io */
+            --secondary-text-color: #999999; /* Gris secundario de Navi.io */
+            --background-color: #f3f3f3; /* Gris claro de fondo de Navi.io */
             --card-background: #ffffff; /* Blanco para tarjetas */
-            --border-color: #d2d2d7; /* Gris para bordes sutiles */
-            --success-color: #34C759; /* Verde Apple */
-            --warning-color: #FF9500; /* Naranja Apple */
-            --error-color: #FF3B30; /* Rojo Apple */
+            --card-alt-background: #fafafa; /* Fondo alternativo de Navi.io */
+            --border-color: #cccccc; /* Gris para bordes de Navi.io */
+            --border-light: #E2E2E2; /* Borde más claro de Navi.io */
+            --success-color: #34C759; /* Verde mantenido para success */
+            --warning-color: #FF9500; /* Naranja mantenido para warning */
+            --error-color: #ea384c; /* Rojo de error de Navi.io */
         }
 
         body {
@@ -127,7 +131,7 @@
         }
 
         .card {
-            background-color: var(--background-color); /* Fondo ligeramente distinto para contraste */
+            background-color: var(--card-alt-background); /* Fondo ligeramente distinto para contraste */
             border-radius: 12px;
             padding: 25px;
             flex: 1 1 300px; /* Flex-grow, flex-shrink, flex-basis */
@@ -137,7 +141,7 @@
         
         .card h3 {
             margin-top: 0;
-            color: var(--primary-color);
+            color: var(--secondary-primary);
         }
 
         .workflow-viz-container {
@@ -165,7 +169,7 @@
         .workflow-step.connected::after {
             content: '→';
             font-size: 24px;
-            color: var(--primary-color);
+            color: var(--secondary-primary);
             position: absolute;
             right: -30px; /* Ajustar según sea necesario */
             top: 50%;
@@ -241,7 +245,7 @@
         <!-- Slide 1: Portada -->
         <section class="slide">
             <!-- Podrías poner un logo aquí si tienes la URL o un SVG simple, ej: <img src="https://navi.io/logo.svg" alt="Naviio Logo" class="logo-navio"> -->
-            <h1 class="slide-title-main">Naviio: Su Aliado Estratégico en <span class="highlight">Tecnología para el Transporte</span></h1>
+            <h1 class="slide-title-main">Navi.io: Su Aliado Estratégico en <span class="highlight">Tecnología para el Transporte</span></h1>
             <p class="slide-subtitle">Desarrollo a la medida e integración de sistemas para potenciar su operación.</p>
             <p class="text-center" style="font-size: 0.9em; color: var(--secondary-text-color);">Una introducción para el equipo de Sistemas y Desarrollo.</p>
         </section>
@@ -249,7 +253,7 @@
         <!-- Slide 2: Quiénes Somos y Nuestro Enfoque -->
         <section class="slide">
             <h2>Entendemos su Mundo: <span class="highlight">Especialistas en Transporte</span></h2>
-            <p>En <span class="highlight">Naviio</span>, no somos generalistas. Respiramos y vivimos los desafíos del sector transportista. Nuestra misión es simple: <strong>transformar sus retos operativos en ventajas competitivas</strong> mediante software diseñado exclusivamente para usted.</p>
+            <p>En <span class="highlight">Navi.io</span>, no somos generalistas. Respiramos y vivimos los desafíos del sector transportista. Nuestra misión es simple: <strong>transformar sus retos operativos en ventajas competitivas</strong> mediante software diseñado exclusivamente para usted.</p>
             <p>Somos una <span class="highlight">consultora y casa de desarrollo (navi.io)</span> enfocada 100% en crear soluciones robustas y a la medida para empresas como la suya.</p>
             <div class="card-container">
                 <div class="card">
@@ -289,7 +293,7 @@
             <p>Visualice un ecosistema donde la información fluye sin fricciones, potenciando cada área de su empresa:</p>
             <div class="workflow-viz-container">
                 <div class="workflow-step connected">Sistemas Actuales</div>
-                <div class="workflow-step connected">Capa de Integración Naviio</div>
+                <div class="workflow-step connected">Capa de Integración Navi.io</div>
                 <div class="workflow-step">Nuevas Soluciones y Datos Unificados</div>
             </div>
         </section>
@@ -348,15 +352,15 @@
             <ul>
                 <li>Entender a fondo sus <span class="highlight">objetivos de transformación digital</span> y los desafíos específicos que enfrentan.</li>
                 <li>Presentarles <span class="highlight">casos de éxito relevantes</span> y cómo hemos ayudado a otras empresas de transporte.</li>
-                <li>Explorar con su equipo de Sistemas y Desarrollo las <span class="highlight">áreas de oportunidad concretas</span> donde <span class="highlight">Naviio</span> puede aportar valor.</li>
+                <li>Explorar con su equipo de Sistemas y Desarrollo las <span class="highlight">áreas de oportunidad concretas</span> donde <span class="highlight">Navi.io</span> puede aportar valor.</li>
             </ul>
             <p class="text-center" style="font-size: 1.3em; font-weight: 600; margin-top: 30px;">
                 Proponemos una breve reunión virtual para profundizar en estos puntos.
             </p>
             <p class="text-center" style="margin-top:30px; color: var(--secondary-text-color);">
                 Ramón Sampayo <br> <!-- Puedes completar tu apellido aquí -->
-                Socio Fundador, Naviio (navi.io)<br>
-                ramon@ukko.mx | +1 (956) 909-9245
+                Socio Fundador, Navi.io<br>
+                ramon@navi.io | +1 (956) 909-9245
             </p>
         </section>
 

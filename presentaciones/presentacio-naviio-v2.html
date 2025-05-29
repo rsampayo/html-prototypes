@@ -248,10 +248,22 @@
         .clients-testimonial {
             font-size: 1.4em; /* Increased from default size */
             line-height: 1.5;
-            color: var(--secondary-text-light);
+            color: var(--secondary-text-color); /* Changed to work with white background */
             font-style: italic;
             margin-top: 40px;
             font-weight: 500;
+        }
+
+        /* Estilos específicos para logos más grandes */
+        .client-logo.large {
+            max-width: 280px; /* Even larger for specific clients */
+            max-height: 130px;
+        }
+
+        /* Estilo para texto en azul oscuro */
+        .dark-blue-text {
+            color: var(--dark-blue);
+            font-weight: 600;
         }
 
         /* Responsive adjustments */
@@ -305,6 +317,10 @@
             .client-logo {
                 max-width: 150px; /* Increased from 120px */
                 max-height: 75px; /* Increased from 60px */
+            }
+            .client-logo.large {
+                max-width: 180px; /* Larger version for mobile */
+                max-height: 90px;
             }
             .clients-testimonial {
                 font-size: 1.2em; /* Slightly smaller on mobile but still larger than before */
@@ -443,15 +459,15 @@
         </section>
 
         <!-- Slide 7: Quiénes confían en Nosotros -->
-        <section class="slide">
+        <section class="slide white-bg">
             <h2 class="text-center">Quiénes <span class="highlight">confían</span> en Nosotros</h2>
-            <p class="text-center" style="margin-bottom: 50px;">Empresas líderes del sector transporte ya han transformado sus operaciones con nuestra plataforma</p>
+            <p class="text-center dark-blue-text" style="margin-bottom: 50px;">Las compañías más visionarias del sector transporte ya están transformando sus operaciones con nuestra plataforma.</p>
             
             <div class="clients-grid">
                 <img src="../logo-clientes/xpress.png" alt="Xpress" class="client-logo">
                 <img src="../logo-clientes/trebol.png" alt="Trébol" class="client-logo">
-                <img src="../logo-clientes/borderfreight.png" alt="Border Freight" class="client-logo">
-                <img src="../logo-clientes/mh.png" alt="MH Logistics" class="client-logo">
+                <img src="../logo-clientes/borderfreight.png" alt="Border Freight" class="client-logo large">
+                <img src="../logo-clientes/mh.png" alt="MH Logistics" class="client-logo large">
                 <img src="../logo-clientes/gor.avif" alt="GOR Transport" class="client-logo">
                 <img src="../logo-clientes/romedu.avif" alt="Romedu" class="client-logo">
             </div>

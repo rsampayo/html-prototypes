@@ -778,6 +778,8 @@
             <div class="nav-dot" data-section="4"></div>
             <div class="nav-dot" data-section="5"></div>
             <div class="nav-dot" data-section="6"></div>
+            <div class="nav-dot" data-section="7"></div>
+            <div class="nav-dot" data-section="8"></div>
         </div>
     </nav>
 
@@ -1454,15 +1456,241 @@
         </div>
     </section>
 
+    <!-- The Transformation Framework -->
+    <section class="framework-section" id="section-6" style="background: radial-gradient(ellipse at 70% 30%, var(--glow-blue) 0%, transparent 50%), var(--bg-deep);">
+        <div class="section-header">
+            <div class="section-label">The Framework</div>
+            <h2 class="section-title">Data → Output → Human Role</h2>
+            <p class="section-subtitle">
+                How each phase transforms what data we use, what the system produces, and what humans do.
+            </p>
+        </div>
+
+        <div style="max-width: 1200px; margin: 0 auto; overflow-x: auto;">
+            <table style="width: 100%; border-collapse: separate; border-spacing: 0; background: var(--bg-card); border-radius: 1rem; overflow: hidden;">
+                <thead>
+                    <tr style="background: rgba(255,255,255,0.03);">
+                        <th style="padding: 1.25rem; text-align: left; font-weight: 600; border-bottom: 1px solid var(--border-subtle);">Phase</th>
+                        <th style="padding: 1.25rem; text-align: left; font-weight: 600; border-bottom: 1px solid var(--border-subtle);">📥 Data Origin</th>
+                        <th style="padding: 1.25rem; text-align: left; font-weight: 600; border-bottom: 1px solid var(--border-subtle);">📤 Output Type</th>
+                        <th style="padding: 1.25rem; text-align: left; font-weight: 600; border-bottom: 1px solid var(--border-subtle);">👤 Human Role</th>
+                        <th style="padding: 1.25rem; text-align: left; font-weight: 600; border-bottom: 1px solid var(--border-subtle);">🎯 Replaces</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size: 0.9rem;">
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 1rem 1.25rem; color: var(--text-muted);">📋 Paper</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Manual entry, handwritten</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Paper reports</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Operator (does everything)</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-muted);">—</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 1rem 1.25rem; color: var(--text-muted);">🏢 ERP/TMS</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Structured forms, GPS feeds</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Transactions, records</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Data entry clerk</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Filing clerks, bookkeepers</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 1rem 1.25rem; color: var(--text-muted);">📊 BI</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Data warehouse, ETL</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Dashboards, KPIs</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Analyst (interprets data)</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Report writers</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 1rem 1.25rem; color: var(--text-muted);">🔌 AI Layer</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Real-time APIs, ML features</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Predictions, recommendations</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Decision maker (chooses)</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Junior analysts</td>
+                    </tr>
+                    <tr style="background: rgba(16, 185, 129, 0.1); border-bottom: 1px solid var(--border-subtle);">
+                        <td style="padding: 1rem 1.25rem; color: var(--accent-primary); font-weight: 600;">💬 Conversational</td>
+                        <td style="padding: 1rem 1.25rem;">Natural language, voice, multi-modal</td>
+                        <td style="padding: 1rem 1.25rem;">Insights, answers, dynamic UI</td>
+                        <td style="padding: 1rem 1.25rem;">Questioner (asks, validates)</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--accent-warm);">Call centers, CSRs, dispatchers</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid var(--border-subtle); opacity: 0.8;">
+                        <td style="padding: 1rem 1.25rem; color: var(--accent-tertiary);">🤖 Agents</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Cross-system, real-time events</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Actions, workflows, decisions</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Supervisor (approves exceptions)</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--accent-warm);">Ops managers, logistics coordinators</td>
+                    </tr>
+                    <tr style="opacity: 0.6;">
+                        <td style="padding: 1rem 1.25rem; color: var(--text-muted);">🌐 AI-Native</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Continuous learning, external signals</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Autonomous optimization</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--text-secondary);">Strategist (sets goals & guardrails)</td>
+                        <td style="padding: 1rem 1.25rem; color: var(--accent-hot);">CFO analysis, CEO decisions</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Rising Tide Visualization -->
+        <div style="max-width: 900px; margin: 3rem auto 0;">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent-primary); letter-spacing: 0.1em; margin-bottom: 0.5rem;">THE RISING TIDE</div>
+                <div style="font-size: 1.25rem; font-weight: 500;">AI Capabilities Climbing the Org Chart</div>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="width: 140px; text-align: right; font-size: 0.85rem; color: var(--text-muted);">CEO / Strategy</div>
+                    <div style="flex: 1; height: 40px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 0.5rem; position: relative; overflow: hidden;">
+                        <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 15%; background: linear-gradient(90deg, rgba(16, 185, 129, 0.3), transparent); display: flex; align-items: center; padding-left: 1rem; font-size: 0.75rem; color: var(--accent-primary);">2026+</div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="width: 140px; text-align: right; font-size: 0.85rem; color: var(--text-muted);">CFO / Finance</div>
+                    <div style="flex: 1; height: 40px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 0.5rem; position: relative; overflow: hidden;">
+                        <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 25%; background: linear-gradient(90deg, rgba(16, 185, 129, 0.3), transparent); display: flex; align-items: center; padding-left: 1rem; font-size: 0.75rem; color: var(--accent-primary);">2025-26</div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="width: 140px; text-align: right; font-size: 0.85rem; color: var(--text-muted);">Ops Manager</div>
+                    <div style="flex: 1; height: 40px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 0.5rem; position: relative; overflow: hidden;">
+                        <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 45%; background: linear-gradient(90deg, rgba(16, 185, 129, 0.4), transparent); display: flex; align-items: center; padding-left: 1rem; font-size: 0.75rem; color: var(--accent-primary);">2024-25</div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="width: 140px; text-align: right; font-size: 0.85rem; color: var(--text-muted);">Dispatcher</div>
+                    <div style="flex: 1; height: 40px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 0.5rem; position: relative; overflow: hidden;">
+                        <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 70%; background: linear-gradient(90deg, var(--accent-primary), rgba(16, 185, 129, 0.3)); display: flex; align-items: center; padding-left: 1rem; font-size: 0.75rem; color: var(--bg-deep); font-weight: 600;">NOW</div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="width: 140px; text-align: right; font-size: 0.85rem; color: var(--text-muted);">Call Center</div>
+                    <div style="flex: 1; height: 40px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 0.5rem; position: relative; overflow: hidden;">
+                        <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 90%; background: var(--accent-primary); display: flex; align-items: center; padding-left: 1rem; font-size: 0.75rem; color: var(--bg-deep); font-weight: 600;">DONE</div>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="width: 140px; text-align: right; font-size: 0.85rem; color: var(--text-muted);">Data Entry</div>
+                    <div style="flex: 1; height: 40px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 0.5rem; position: relative; overflow: hidden;">
+                        <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: var(--accent-primary); display: flex; align-items: center; padding-left: 1rem; font-size: 0.75rem; color: var(--bg-deep); font-weight: 600;">DONE</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: var(--text-secondary);">
+                AI capabilities are <strong style="color: var(--text-primary);">rising up the organization</strong>—from data entry to CEO-level strategic decisions.
+            </div>
+        </div>
+    </section>
+
+    <!-- Historical Context -->
+    <section class="history-section" id="section-7" style="background: var(--bg-deep);">
+        <div class="section-header">
+            <div class="section-label">Historical Context</div>
+            <h2 class="section-title">The Fastest Transformation in History</h2>
+            <p class="section-subtitle">
+                AI is as transformational as electricity, banking, or the internet—but happening in record time.
+            </p>
+        </div>
+
+        <div style="max-width: 1000px; margin: 0 auto;">
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                
+                <!-- Electricity -->
+                <div style="display: flex; align-items: center; gap: 2rem; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1.5rem 2rem;">
+                    <div style="font-size: 2.5rem;">⚡</div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; margin-bottom: 0.25rem;">Electricity</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">Transformed manufacturing, homes, cities</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-muted);">1880s → 1920s</div>
+                        <div style="font-size: 1.5rem; font-weight: 600; color: var(--text-muted);">~40 years</div>
+                    </div>
+                    <div style="width: 200px; height: 8px; background: var(--bg-deep); border-radius: 4px; overflow: hidden;">
+                        <div style="width: 100%; height: 100%; background: var(--text-muted);"></div>
+                    </div>
+                </div>
+
+                <!-- Banking -->
+                <div style="display: flex; align-items: center; gap: 2rem; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1.5rem 2rem;">
+                    <div style="font-size: 2.5rem;">🏦</div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; margin-bottom: 0.25rem;">Digital Banking</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">Computerized finance, ATMs, online banking</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-muted);">1950s → 1980s</div>
+                        <div style="font-size: 1.5rem; font-weight: 600; color: var(--text-muted);">~30 years</div>
+                    </div>
+                    <div style="width: 200px; height: 8px; background: var(--bg-deep); border-radius: 4px; overflow: hidden;">
+                        <div style="width: 75%; height: 100%; background: var(--text-muted);"></div>
+                    </div>
+                </div>
+
+                <!-- Internet -->
+                <div style="display: flex; align-items: center; gap: 2rem; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1.5rem 2rem;">
+                    <div style="font-size: 2.5rem;">🌐</div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; margin-bottom: 0.25rem;">Internet</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">E-commerce, social media, cloud computing</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-muted);">1990s → 2010s</div>
+                        <div style="font-size: 1.5rem; font-weight: 600; color: var(--accent-tertiary);">~20 years</div>
+                    </div>
+                    <div style="width: 200px; height: 8px; background: var(--bg-deep); border-radius: 4px; overflow: hidden;">
+                        <div style="width: 50%; height: 100%; background: var(--accent-tertiary);"></div>
+                    </div>
+                </div>
+
+                <!-- AI -->
+                <div style="display: flex; align-items: center; gap: 2rem; background: linear-gradient(135deg, var(--bg-card), rgba(16, 185, 129, 0.1)); border: 1px solid var(--accent-primary); border-radius: 1rem; padding: 1.5rem 2rem;">
+                    <div style="font-size: 2.5rem;">🤖</div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; margin-bottom: 0.25rem; color: var(--accent-primary);">AI / Agents</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">Autonomous operations, cognitive work, decision-making</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent-primary);">2020s → 2030</div>
+                        <div style="font-size: 1.5rem; font-weight: 600; color: var(--accent-primary);">~5-10 years</div>
+                    </div>
+                    <div style="width: 200px; height: 8px; background: var(--bg-deep); border-radius: 4px; overflow: hidden;">
+                        <div style="width: 25%; height: 100%; background: var(--accent-primary); animation: pulse-bar 2s infinite;"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <style>
+                @keyframes pulse-bar {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.6; }
+                }
+            </style>
+
+            <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 1rem;">
+                <div style="font-family: 'Instrument Serif', serif; font-size: 1.5rem; margin-bottom: 1rem;">
+                    The window to adapt is <span style="color: var(--accent-primary);">smaller than ever</span>.
+                </div>
+                <div style="color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 0.95rem;">
+                    Companies that took 10 years to adopt the internet had time to catch up. 
+                    With AI, that window is <strong style="color: var(--text-primary);">3-5 years</strong>. 
+                    Early adopters will define the next decade.
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Vision -->
-    <section class="vision-section" id="section-6" style="background: linear-gradient(135deg, var(--bg-deep) 0%, #0f172a 100%); text-align: center;">
+    <section class="vision-section" id="section-8" style="background: linear-gradient(135deg, var(--bg-deep) 0%, #0f172a 100%); text-align: center;">
         <div class="section-header">
             <div class="section-label">The Vision</div>
             <h2 class="section-title">Where This All Leads</h2>
         </div>
 
         <p class="vision-quote">
-            "The future isn't about <span>replacing humans</span> with AI—it's about giving every person in the organization <span>superpowers</span> to make better decisions, faster."
+            "The future isn't about <span>replacing humans</span> with AI—it's about <span>elevating humans</span> to focus on what matters: strategy, relationships, and creativity."
         </p>
 
         <div class="vision-stats">

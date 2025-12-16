@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Naviio AI Stack | Mobile</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0a0f1a;
+            --bg-card: #111827;
+            --accent-primary: #10b981;
+            --accent-secondary: #06d6a0;
+            --accent-tertiary: #3b82f6;
+            --accent-warm: #f59e0b;
+            --accent-hot: #ef4444;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-subtle: rgba(255,255,255,0.08);
+            --border-accent: rgba(16, 185, 129, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+            font-size: 16px;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent-primary);
+            z-index: 1000;
+            transition: width 0.3s ease;
+        }
+
+        /* Sections */
+        section {
+            min-height: 100vh;
+            min-height: 100dvh;
+            scroll-snap-align: start;
+            padding: 2rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            background: 
+                radial-gradient(ellipse at 50% 30%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+                var(--bg-deep);
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-size: 0.65rem;
+            color: var(--accent-primary);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--accent-primary);
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* Section Headers */
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--accent-primary);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.75rem;
+            font-weight: 400;
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Phase Cards - Horizontal Scroll */
+        .phases-scroll {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 1rem 0;
+            margin: 0 -1.25rem;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .phases-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .phase-card {
+            flex: 0 0 280px;
+            scroll-snap-align: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 1.25rem;
+            padding: 1.5rem;
+        }
+
+        .phase-card.current {
+            border-color: var(--accent-primary);
+            background: linear-gradient(135deg, var(--bg-card), rgba(16, 185, 129, 0.05));
+            position: relative;
+        }
+
+        .phase-card.current::before {
+            content: 'NOW';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-primary);
+            color: var(--bg-deep);
+            padding: 0.2rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+
+        .phase-card.future {
+            opacity: 0.6;
+            border-style: dashed;
+        }
+
+        .phase-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .phase-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .phase-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .phase-era {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .phase-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Stack Section */
+        .stack-section {
+            background: 
+                radial-gradient(ellipse at 50% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                var(--bg-deep);
+        }
+
+        .stack-layers {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .stack-layer {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            border-left: 3px solid var(--layer-color, var(--text-muted));
+        }
+
+        .stack-layer.l6 { --layer-color: #ec4899; }
+        .stack-layer.l5 { --layer-color: #8b5cf6; }
+        .stack-layer.l4 { --layer-color: #3b82f6; }
+        .stack-layer.l3 { --layer-color: #06b6d4; }
+        .stack-layer.l2 { --layer-color: #10b981; }
+        .stack-layer.l1 { --layer-color: #f59e0b; }
+
+        .stack-layer-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .stack-layer-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--layer-color);
+        }
+
+        .stack-layer-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .stack-layer-apps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-top: 0.5rem;
+        }
+
+        .app-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            padding: 0.2rem 0.5rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-subtle);
+            border-radius: 100px;
+            color: var(--text-muted);
+        }
+
+        .app-tag.hl {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        /* Apps Section */
+        .apps-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .app-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 1rem;
+            padding: 1.25rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .app-icon {
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .app-content {
+            flex: 1;
+        }
+
+        .app-name {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.15rem;
+        }
+
+        .app-tech {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .app-role {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Questions Section */
+        .questions-scroll {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 0.5rem 0;
+            margin: 0 -1.25rem;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .questions-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .question-card {
+            flex: 0 0 300px;
+            scroll-snap-align: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 1.25rem;
+            padding: 1.25rem;
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .question-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .question-icon.ceo { background: rgba(139, 92, 246, 0.15); }
+        .question-icon.ops { background: rgba(59, 130, 246, 0.15); }
+        .question-icon.driver { background: rgba(34, 197, 94, 0.15); }
+        .question-icon.customer { background: rgba(245, 158, 11, 0.15); }
+        .question-icon.finance { background: rgba(16, 185, 129, 0.15); }
+        .question-icon.fleet { background: rgba(236, 72, 153, 0.15); }
+
+        .question-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .question-channel {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        .question-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .question-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .question-item.main {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--border-accent);
+            color: var(--text-primary);
+        }
+
+        /* Roadmap Section */
+        .roadmap-scroll {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding: 0.5rem 0;
+            margin: 0 -1.25rem;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .roadmap-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .roadmap-card {
+            flex: 0 0 280px;
+            scroll-snap-align: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 1.25rem;
+            padding: 1.25rem;
+        }
+
+        .roadmap-card.now {
+            border-color: var(--accent-primary);
+        }
+
+        .roadmap-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .roadmap-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+
+        .roadmap-card.now .roadmap-dot {
+            background: var(--accent-primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+        }
+
+        .roadmap-card.next .roadmap-dot {
+            background: var(--accent-tertiary);
+        }
+
+        .roadmap-title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .roadmap-phase {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .roadmap-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .roadmap-item-title {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .roadmap-item-desc {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Vision Section */
+        .vision-section {
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-deep), #0f172a);
+        }
+
+        .vision-quote {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.35rem;
+            font-style: italic;
+            line-height: 1.4;
+            margin-bottom: 2rem;
+        }
+
+        .vision-quote span {
+            color: var(--accent-primary);
+        }
+
+        .vision-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .vision-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .vision-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* App Icons Flow */
+        .apps-flow {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 1rem;
+        }
+
+        .flow-item {
+            text-align: center;
+        }
+
+        .flow-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .flow-name {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        .flow-arrow {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        /* Swipe Hint */
+        .swipe-hint {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 1.5rem;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progress"></div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-badge">Naviio AI Stack</div>
+        <h1>From <em>Spreadsheets</em> to <em>Autonomous Agents</em></h1>
+        <p class="hero-subtitle">The evolution of enterprise intelligence in transportation.</p>
+        <div class="scroll-hint">
+            <span>Swipe up</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Timeline -->
+    <section>
+        <div class="section-label">Evolution</div>
+        <h2 class="section-title">7 Phases of Enterprise AI</h2>
+        <p class="section-subtitle">Swipe to explore each phase →</p>
+        
+        <div class="phases-scroll">
+            <div class="phase-card">
+                <div class="phase-number">01</div>
+                <div class="phase-icon">📋</div>
+                <div class="phase-title">Paper & Excel</div>
+                <div class="phase-era">Pre-2000s</div>
+                <div class="phase-desc">Manual records, filing cabinets, spreadsheet chaos.</div>
+            </div>
+            <div class="phase-card">
+                <div class="phase-number">02</div>
+                <div class="phase-icon">🏢</div>
+                <div class="phase-title">ERP & TMS</div>
+                <div class="phase-era">2000s–2010s</div>
+                <div class="phase-desc">Digital systems capture transactions. Naviio born here.</div>
+            </div>
+            <div class="phase-card">
+                <div class="phase-number">03</div>
+                <div class="phase-icon">📊</div>
+                <div class="phase-title">BI & Analytics</div>
+                <div class="phase-era">2010s</div>
+                <div class="phase-desc">Dashboards answer "what happened?" with historical data.</div>
+            </div>
+            <div class="phase-card">
+                <div class="phase-number">04</div>
+                <div class="phase-icon">🔌</div>
+                <div class="phase-title">AI Data Layer</div>
+                <div class="phase-era">2020–2023</div>
+                <div class="phase-desc">APIs optimized for AI. Data accessible for ML models.</div>
+            </div>
+            <div class="phase-card current">
+                <div class="phase-number">05</div>
+                <div class="phase-icon">💬</div>
+                <div class="phase-title">Conversational AI</div>
+                <div class="phase-era">2024–Now</div>
+                <div class="phase-desc">Ask questions in natural language. Get instant answers.</div>
+            </div>
+            <div class="phase-card future">
+                <div class="phase-number">06</div>
+                <div class="phase-icon">🤖</div>
+                <div class="phase-title">Autonomous Agents</div>
+                <div class="phase-era">2025–2026</div>
+                <div class="phase-desc">AI that acts—auto-dispatch, auto-reconcile, auto-optimize.</div>
+            </div>
+            <div class="phase-card future">
+                <div class="phase-number">07</div>
+                <div class="phase-icon">🌐</div>
+                <div class="phase-title">AI-Native Ops</div>
+                <div class="phase-era">2026+</div>
+                <div class="phase-desc">Self-optimizing systems with full governance.</div>
+            </div>
+        </div>
+        <div class="swipe-hint">← Swipe to see all phases →</div>
+    </section>
+
+    <!-- Stack -->
+    <section class="stack-section">
+        <div class="section-label">Architecture</div>
+        <h2 class="section-title">The Naviio Stack</h2>
+        <p class="section-subtitle">6 layers, 6 applications</p>
+        
+        <div class="stack-layers">
+            <div class="stack-layer l6">
+                <div class="stack-layer-header">
+                    <span class="stack-layer-num">L6</span>
+                    <span class="stack-layer-title">Data Quality & Governance</span>
+                </div>
+                <div class="stack-layer-apps">
+                    <span class="app-tag hl">Naviio Audit Agents</span>
+                </div>
+            </div>
+            <div class="stack-layer l5">
+                <div class="stack-layer-header">
+                    <span class="stack-layer-num">L5</span>
+                    <span class="stack-layer-title">Conversational Interfaces</span>
+                </div>
+                <div class="stack-layer-apps">
+                    <span class="app-tag hl">WhatsApp</span>
+                    <span class="app-tag hl">Voice</span>
+                    <span class="app-tag hl">Insights</span>
+                </div>
+            </div>
+            <div class="stack-layer l4">
+                <div class="stack-layer-header">
+                    <span class="stack-layer-num">L4</span>
+                    <span class="stack-layer-title">AI Tools & Capabilities</span>
+                </div>
+                <div class="stack-layer-apps">
+                    <span class="app-tag hl">Naviio Tools API</span>
+                    <span class="app-tag">GPT-4.1</span>
+                </div>
+            </div>
+            <div class="stack-layer l3">
+                <div class="stack-layer-header">
+                    <span class="stack-layer-num">L3</span>
+                    <span class="stack-layer-title">BI & Analytics</span>
+                </div>
+                <div class="stack-layer-apps">
+                    <span class="app-tag">Redis</span>
+                    <span class="app-tag">SQL</span>
+                </div>
+            </div>
+            <div class="stack-layer l2">
+                <div class="stack-layer-header">
+                    <span class="stack-layer-num">L2</span>
+                    <span class="stack-layer-title">Core Enterprise System</span>
+                </div>
+                <div class="stack-layer-apps">
+                    <span class="app-tag hl">Naviio</span>
+                    <span class="app-tag">PostgreSQL</span>
+                </div>
+            </div>
+            <div class="stack-layer l1">
+                <div class="stack-layer-header">
+                    <span class="stack-layer-num">L1</span>
+                    <span class="stack-layer-title">Operational Reality</span>
+                </div>
+                <div class="stack-layer-apps">
+                    <span class="app-tag">🚛 Fleet</span>
+                    <span class="app-tag">📍 GPS</span>
+                    <span class="app-tag">👨‍✈️ Drivers</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Apps -->
+    <section>
+        <div class="section-label">Applications</div>
+        <h2 class="section-title">6 Apps, 1 Mission</h2>
+        <p class="section-subtitle">Each serves a specific role</p>
+        
+        <div class="apps-grid">
+            <div class="app-card">
+                <div class="app-icon">🏢</div>
+                <div class="app-content">
+                    <div class="app-name">Naviio</div>
+                    <div class="app-tech">ERP/TMS • Ruby on Rails</div>
+                    <div class="app-role">The Foundation. System of record for all transactions.</div>
+                </div>
+            </div>
+            <div class="app-card">
+                <div class="app-icon">🔌</div>
+                <div class="app-content">
+                    <div class="app-name">Naviio Tools API</div>
+                    <div class="app-tech">FastAPI • Redis</div>
+                    <div class="app-role">The Bridge. Serves all the tools AI needs.</div>
+                </div>
+            </div>
+            <div class="app-card">
+                <div class="app-icon">💬</div>
+                <div class="app-content">
+                    <div class="app-name">Naviio WhatsApp</div>
+                    <div class="app-tech">LangFlow • Whisper</div>
+                    <div class="app-role">Field chat. Drivers ask questions via text/voice.</div>
+                </div>
+            </div>
+            <div class="app-card">
+                <div class="app-icon">📞</div>
+                <div class="app-content">
+                    <div class="app-name">Naviio Voice</div>
+                    <div class="app-tech">Telephony • STT</div>
+                    <div class="app-role">Call & talk. Customers check shipment status.</div>
+                </div>
+            </div>
+            <div class="app-card">
+                <div class="app-icon">📊</div>
+                <div class="app-content">
+                    <div class="app-name">Naviio Insights</div>
+                    <div class="app-tech">Flutter • Gemini</div>
+                    <div class="app-role">ChatGPT for business data. Executive dashboard.</div>
+                </div>
+            </div>
+            <div class="app-card">
+                <div class="app-icon">🤖</div>
+                <div class="app-content">
+                    <div class="app-name">Naviio Audit Agents</div>
+                    <div class="app-tech">LangFlow • GPT-4.1</div>
+                    <div class="app-role">Data quality. Validates user input in real-time.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Questions -->
+    <section>
+        <div class="section-label">Just Ask</div>
+        <h2 class="section-title">Questions AI Answers</h2>
+        <p class="section-subtitle">Swipe to see examples →</p>
+        
+        <div class="questions-scroll">
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-icon ceo">👔</div>
+                    <div>
+                        <div class="question-title">CEO / Executives</div>
+                        <div class="question-channel">via Naviio Insights</div>
+                    </div>
+                </div>
+                <div class="question-list">
+                    <div class="question-item main">"Dame un análisis completo de cómo nos fue en 2025"</div>
+                    <div class="question-item">"¿Cuáles clientes tienen riesgo de churn?"</div>
+                    <div class="question-item">"Compara RPM de Intermodal vs Ruta Larga"</div>
+                </div>
+            </div>
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-icon ops">📋</div>
+                    <div>
+                        <div class="question-title">Operations</div>
+                        <div class="question-channel">via Insights or WhatsApp</div>
+                    </div>
+                </div>
+                <div class="question-list">
+                    <div class="question-item main">"¿Cuántos tractores tenemos ociosos?"</div>
+                    <div class="question-item">"¿Qué camiones están cerca de Laredo?"</div>
+                    <div class="question-item">"Dame los viajes retrasados de hoy"</div>
+                </div>
+            </div>
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-icon driver">🚛</div>
+                    <div>
+                        <div class="question-title">Truck Drivers</div>
+                        <div class="question-channel">via WhatsApp or Voice</div>
+                    </div>
+                </div>
+                <div class="question-list">
+                    <div class="question-item main">"¿Dónde cargo combustible?"</div>
+                    <div class="question-item">"Mi camión hace ruido raro"</div>
+                    <div class="question-item">"¿Cómo llego a Expeditors?"</div>
+                </div>
+            </div>
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-icon customer">📦</div>
+                    <div>
+                        <div class="question-title">Customers</div>
+                        <div class="question-channel">via Voice or WhatsApp</div>
+                    </div>
+                </div>
+                <div class="question-list">
+                    <div class="question-item main">"¿Dónde está mi embarque #78234?"</div>
+                    <div class="question-item">"¿A qué hora llega mi carga?"</div>
+                    <div class="question-item">"Necesito la carta porte"</div>
+                </div>
+            </div>
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-icon finance">💰</div>
+                    <div>
+                        <div class="question-title">Finance</div>
+                        <div class="question-channel">via Naviio Insights</div>
+                    </div>
+                </div>
+                <div class="question-list">
+                    <div class="question-item main">"¿Cuánto facturó el X-841 en enero?"</div>
+                    <div class="question-item">"Facturas pendientes de Ryder"</div>
+                    <div class="question-item">"Gastos de combustible este mes"</div>
+                </div>
+            </div>
+            <div class="question-card">
+                <div class="question-header">
+                    <div class="question-icon fleet">🔧</div>
+                    <div>
+                        <div class="question-title">Fleet / Maintenance</div>
+                        <div class="question-channel">via Naviio Insights</div>
+                    </div>
+                </div>
+                <div class="question-list">
+                    <div class="question-item main">"¿Qué camiones necesitan servicio?"</div>
+                    <div class="question-item">"Rendimiento de combustible X-299"</div>
+                    <div class="question-item">"Llantas que necesitan cambio"</div>
+                </div>
+            </div>
+        </div>
+        <div class="swipe-hint">← Swipe for more →</div>
+    </section>
+
+    <!-- Roadmap -->
+    <section>
+        <div class="section-label">Roadmap</div>
+        <h2 class="section-title">Where We're Going</h2>
+        <p class="section-subtitle">Now → Next → Future</p>
+        
+        <div class="roadmap-scroll">
+            <div class="roadmap-card now">
+                <div class="roadmap-header">
+                    <div class="roadmap-dot"></div>
+                    <div class="roadmap-title">Now</div>
+                </div>
+                <div class="roadmap-phase">Phase 5 • Conversational AI</div>
+                <div class="roadmap-items">
+                    <div>
+                        <div class="roadmap-item-title">✅ Naviio WhatsApp</div>
+                        <div class="roadmap-item-desc">Chat & voice notes</div>
+                    </div>
+                    <div>
+                        <div class="roadmap-item-title">✅ Naviio Voice</div>
+                        <div class="roadmap-item-desc">Phone call AI</div>
+                    </div>
+                    <div>
+                        <div class="roadmap-item-title">✅ Naviio Insights</div>
+                        <div class="roadmap-item-desc">Executive GenUI</div>
+                    </div>
+                    <div>
+                        <div class="roadmap-item-title">✅ Audit Agents</div>
+                        <div class="roadmap-item-desc">Data validation</div>
+                    </div>
+                </div>
+            </div>
+            <div class="roadmap-card next">
+                <div class="roadmap-header">
+                    <div class="roadmap-dot"></div>
+                    <div class="roadmap-title">Next</div>
+                </div>
+                <div class="roadmap-phase">Phase 6 • Autonomous Agents</div>
+                <div class="roadmap-items">
+                    <div>
+                        <div class="roadmap-item-title">🔄 Auto-Dispatch</div>
+                        <div class="roadmap-item-desc">AI assigns trucks</div>
+                    </div>
+                    <div>
+                        <div class="roadmap-item-title">🔄 Payment Reconciliation</div>
+                        <div class="roadmap-item-desc">Auto-match invoices</div>
+                    </div>
+                    <div>
+                        <div class="roadmap-item-title">🔄 Proactive Alerts</div>
+                        <div class="roadmap-item-desc">Issues before you ask</div>
+                    </div>
+                </div>
+            </div>
+            <div class="roadmap-card">
+                <div class="roadmap-header">
+                    <div class="roadmap-dot"></div>
+                    <div class="roadmap-title">Future</div>
+                </div>
+                <div class="roadmap-phase">Phase 7 • AI-Native Ops</div>
+                <div class="roadmap-items">
+                    <div>
+                        <div class="roadmap-item-title">🌐 Self-Optimizing Routes</div>
+                        <div class="roadmap-item-desc">Continuous optimization</div>
+                    </div>
+                    <div>
+                        <div class="roadmap-item-title">🌐 Predictive Maintenance</div>
+                        <div class="roadmap-item-desc">Fix before it breaks</div>
+                    </div>
+                    <div>
+                        <div class="roadmap-item-title">🌐 Full Governance</div>
+                        <div class="roadmap-item-desc">AI actions audited</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swipe-hint">← Swipe →</div>
+    </section>
+
+    <!-- Vision -->
+    <section class="vision-section">
+        <div class="section-label">Vision</div>
+        <h2 class="section-title">Where This Leads</h2>
+        
+        <p class="vision-quote">
+            "Give every person in the organization <span>superpowers</span> to make better decisions, faster."
+        </p>
+
+        <div class="vision-stats">
+            <div>
+                <div class="vision-stat-value">5s</div>
+                <div class="vision-stat-label">Query response</div>
+            </div>
+            <div>
+                <div class="vision-stat-value">24/7</div>
+                <div class="vision-stat-label">AI available</div>
+            </div>
+            <div>
+                <div class="vision-stat-value">100%</div>
+                <div class="vision-stat-label">Data audited</div>
+            </div>
+        </div>
+
+        <div class="apps-flow">
+            <div class="flow-item">
+                <div class="flow-icon">🏢</div>
+                <div class="flow-name">Naviio</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-item">
+                <div class="flow-icon">🔌</div>
+                <div class="flow-name">API</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-item">
+                <div class="flow-icon">💬</div>
+                <div class="flow-name">Chat</div>
+            </div>
+            <div class="flow-arrow">+</div>
+            <div class="flow-item">
+                <div class="flow-icon">📞</div>
+                <div class="flow-name">Voice</div>
+            </div>
+            <div class="flow-arrow">+</div>
+            <div class="flow-item">
+                <div class="flow-icon">📊</div>
+                <div class="flow-name">Insights</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">Naviio AI Stack • Transportation & Logistics • 2024</p>
+    </footer>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progress').style.width = scrolled + '%';
+        });
+    </script>
+</body>
+</html>
+

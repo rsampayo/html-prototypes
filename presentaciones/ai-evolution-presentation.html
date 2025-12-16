@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Evolution of Enterprise Intelligence | Naviio AI Stack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #0a0f1a;
+            --bg-card: #111827;
+            --bg-card-hover: #1a2332;
+            --accent-primary: #10b981;
+            --accent-secondary: #06d6a0;
+            --accent-tertiary: #3b82f6;
+            --accent-warm: #f59e0b;
+            --accent-hot: #ef4444;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-subtle: rgba(255,255,255,0.06);
+            --border-accent: rgba(16, 185, 129, 0.3);
+            --glow-green: rgba(16, 185, 129, 0.15);
+            --glow-blue: rgba(59, 130, 246, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y mandatory;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: linear-gradient(to bottom, var(--bg-deep), transparent);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: var(--accent-primary);
+            box-shadow: 0 0 10px var(--accent-primary);
+        }
+
+        .nav-dot:hover {
+            transform: scale(1.2);
+        }
+
+        /* Sections */
+        section {
+            min-height: 100vh;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 6rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: 
+                radial-gradient(ellipse at 20% 50%, var(--glow-green) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 50%, var(--glow-blue) 0%, transparent 50%),
+                var(--bg-deep);
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-accent);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            color: var(--accent-primary);
+            margin-bottom: 2rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 50%, var(--accent-tertiary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: var(--accent-primary);
+            color: var(--bg-deep);
+            border-radius: 100px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Timeline Section */
+        .timeline-section {
+            background: var(--bg-deep);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Phase Cards */
+        .phases-container {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            padding: 2rem 0;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .phases-container::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .phases-container::-webkit-scrollbar-track {
+            background: var(--bg-card);
+            border-radius: 2px;
+        }
+
+        .phases-container::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 2px;
+        }
+
+        .phase-card {
+            flex: 0 0 320px;
+            scroll-snap-align: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .phase-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--border-accent);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .phase-card.current {
+            border-color: var(--accent-primary);
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(16, 185, 129, 0.05) 100%);
+        }
+
+        .phase-card.current::before {
+            content: 'YOU ARE HERE';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-primary);
+            color: var(--bg-deep);
+            padding: 0.25rem 1rem;
+            border-radius: 100px;
+            font-size: 0.625rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+
+        .phase-card.future {
+            opacity: 0.7;
+            border-style: dashed;
+        }
+
+        .phase-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .phase-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .phase-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .phase-era {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .phase-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .phase-features {
+            list-style: none;
+        }
+
+        .phase-features li {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding: 0.25rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .phase-features li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+        }
+
+        /* Current Stack Section */
+        .stack-section {
+            background: 
+                radial-gradient(ellipse at 50% 100%, var(--glow-green) 0%, transparent 50%),
+                var(--bg-deep);
+        }
+
+        .stack-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .stack-layer {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 1rem;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stack-layer:hover {
+            border-color: var(--border-accent);
+            transform: translateX(8px);
+        }
+
+        .stack-layer::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--layer-color, var(--text-muted));
+        }
+
+        .stack-layer.layer-6 { --layer-color: #ec4899; }
+        .stack-layer.layer-5 { --layer-color: #8b5cf6; }
+        .stack-layer.layer-4 { --layer-color: #3b82f6; }
+        .stack-layer.layer-3 { --layer-color: #06b6d4; }
+        .stack-layer.layer-2 { --layer-color: #10b981; }
+        .stack-layer.layer-1 { --layer-color: #f59e0b; }
+
+        .stack-layer-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--layer-color, var(--text-muted));
+            min-width: 80px;
+        }
+
+        .stack-layer-content {
+            flex: 1;
+        }
+
+        .stack-layer-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .stack-layer-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .stack-layer-apps {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .app-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.75rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-subtle);
+            border-radius: 100px;
+            color: var(--text-secondary);
+        }
+
+        .app-tag.highlight {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        /* Apps Detail Section */
+        .apps-section {
+            background: var(--bg-deep);
+        }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .app-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            transition: all 0.4s ease;
+        }
+
+        .app-card:hover {
+            border-color: var(--app-color, var(--border-accent));
+            transform: translateY(-4px);
+        }
+
+        .app-card.naviio { --app-color: #10b981; }
+        .app-card.tools { --app-color: #3b82f6; }
+        .app-card.whatsapp { --app-color: #22c55e; }
+        .app-card.voice { --app-color: #f59e0b; }
+        .app-card.insights { --app-color: #8b5cf6; }
+        .app-card.agents { --app-color: #ec4899; }
+
+        .app-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .app-card-name {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .app-card-tech {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--app-color, var(--text-muted));
+            margin-bottom: 1rem;
+        }
+
+        .app-card-role {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .app-card-layer {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.75rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 100px;
+            display: inline-block;
+            color: var(--app-color, var(--text-muted));
+        }
+
+        /* Roadmap Section */
+        .roadmap-section {
+            background: 
+                radial-gradient(ellipse at 80% 20%, var(--glow-blue) 0%, transparent 50%),
+                var(--bg-deep);
+        }
+
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 900px) {
+            .roadmap-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .roadmap-column {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 1.5rem;
+            padding: 2rem;
+        }
+
+        .roadmap-column.now {
+            border-color: var(--accent-primary);
+        }
+
+        .roadmap-column-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .roadmap-status {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+
+        .roadmap-column.now .roadmap-status {
+            background: var(--accent-primary);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+        }
+
+        .roadmap-column.next .roadmap-status {
+            background: var(--accent-tertiary);
+        }
+
+        .roadmap-column-title {
+            font-weight: 600;
+        }
+
+        .roadmap-timeline {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        .roadmap-items {
+            list-style: none;
+        }
+
+        .roadmap-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .roadmap-item:last-child {
+            border-bottom: none;
+        }
+
+        .roadmap-item-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .roadmap-item-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Vision Section */
+        .vision-section {
+            background: 
+                linear-gradient(135deg, var(--bg-deep) 0%, #0f172a 100%);
+            text-align: center;
+        }
+
+        .vision-quote {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-style: italic;
+            max-width: 900px;
+            margin: 0 auto 3rem;
+            line-height: 1.4;
+        }
+
+        .vision-quote span {
+            color: var(--accent-primary);
+        }
+
+        .vision-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .vision-stat {
+            text-align: center;
+        }
+
+        .vision-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 3rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .vision-stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 4rem;
+            text-align: center;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .footer-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            section {
+                padding: 4rem 1.5rem;
+            }
+            
+            .stack-layer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .vision-stats {
+                gap: 2rem;
+            }
+        }
+
+        /* Connection Lines */
+        .connection-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 0;
+        }
+
+        .connection-line {
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(to bottom, var(--accent-primary), transparent);
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Data flow diagram */
+        .flow-diagram {
+            max-width: 1000px;
+            margin: 3rem auto 0;
+            padding: 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 1.5rem;
+        }
+
+        .flow-title {
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .flow-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .flow-box {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .flow-box.highlight {
+            border-color: var(--accent-primary);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .flow-arrow {
+            color: var(--accent-primary);
+            font-size: 1.25rem;
+        }
+
+        .flow-arrow-down {
+            display: flex;
+            justify-content: center;
+            color: var(--accent-primary);
+            font-size: 1.25rem;
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-logo">Naviio</div>
+        <div class="nav-dots">
+            <div class="nav-dot active" data-section="0"></div>
+            <div class="nav-dot" data-section="1"></div>
+            <div class="nav-dot" data-section="2"></div>
+            <div class="nav-dot" data-section="3"></div>
+            <div class="nav-dot" data-section="4"></div>
+            <div class="nav-dot" data-section="5"></div>
+            <div class="nav-dot" data-section="6"></div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="section-0">
+        <div class="hero-badge">The AI-Native Enterprise</div>
+        <h1>From <em>Spreadsheets</em><br>to <em>Autonomous Agents</em></h1>
+        <p class="hero-subtitle">
+            The story of how enterprise systems evolved—and where Naviio is taking them next with AI.
+        </p>
+        <a href="#section-1" class="hero-cta">
+            Explore the Journey
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+        <div class="scroll-indicator">
+            <span>Scroll to explore</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="timeline-section" id="section-1">
+        <div class="section-header">
+            <div class="section-label">The Evolution</div>
+            <h2 class="section-title">Seven Phases of Enterprise Intelligence</h2>
+            <p class="section-subtitle">
+                From manual record-keeping to autonomous AI agents—each phase built upon the last.
+            </p>
+        </div>
+
+        <div class="phases-container">
+            <!-- Phase 1 -->
+            <div class="phase-card">
+                <div class="phase-number">PHASE 01</div>
+                <div class="phase-icon">📋</div>
+                <h3 class="phase-title">Paper & Spreadsheets</h3>
+                <div class="phase-era">Pre-2000s</div>
+                <p class="phase-description">
+                    Manual records, filing cabinets, and early spreadsheets. Data was siloed and impossible to analyze at scale.
+                </p>
+                <ul class="phase-features">
+                    <li>Handwritten logs</li>
+                    <li>Excel chaos</li>
+                    <li>Zero integration</li>
+                    <li>Days to find information</li>
+                </ul>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="phase-card">
+                <div class="phase-number">PHASE 02</div>
+                <div class="phase-icon">🏢</div>
+                <h3 class="phase-title">ERP & TMS Systems</h3>
+                <div class="phase-era">2000s – 2010s</div>
+                <p class="phase-description">
+                    Digital systems of record emerge. Transactions are captured, processes automated, data structured. Naviio was born here.
+                </p>
+                <ul class="phase-features">
+                    <li>Centralized databases</li>
+                    <li>Process automation</li>
+                    <li>Structured workflows</li>
+                    <li>Real-time transactions</li>
+                </ul>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="phase-card">
+                <div class="phase-number">PHASE 03</div>
+                <div class="phase-icon">📊</div>
+                <h3 class="phase-title">BI & Analytics</h3>
+                <div class="phase-era">2010s</div>
+                <p class="phase-description">
+                    Dashboards and reports answer "What happened?" Data warehouses enable historical analysis.
+                </p>
+                <ul class="phase-features">
+                    <li>KPI dashboards</li>
+                    <li>Historical reports</li>
+                    <li>Data warehouses</li>
+                    <li>Self-service BI</li>
+                </ul>
+            </div>
+
+            <!-- Phase 4 -->
+            <div class="phase-card">
+                <div class="phase-number">PHASE 04</div>
+                <div class="phase-icon">🔌</div>
+                <h3 class="phase-title">AI Data Layer</h3>
+                <div class="phase-era">2020 – 2023</div>
+                <p class="phase-description">
+                    APIs optimized for AI consumption. Data becomes accessible for machine learning and predictions.
+                </p>
+                <ul class="phase-features">
+                    <li>AI-optimized APIs</li>
+                    <li>Feature engineering</li>
+                    <li>Predictive models</li>
+                    <li>Real-time aggregations</li>
+                </ul>
+            </div>
+
+            <!-- Phase 5 - CURRENT -->
+            <div class="phase-card current">
+                <div class="phase-number">PHASE 05</div>
+                <div class="phase-icon">💬</div>
+                <h3 class="phase-title">Conversational AI</h3>
+                <div class="phase-era">2024 – Now</div>
+                <p class="phase-description">
+                    Natural language interfaces let anyone query the business. Ask questions, get instant answers with visualizations.
+                </p>
+                <ul class="phase-features">
+                    <li>Chat interfaces</li>
+                    <li>Voice queries</li>
+                    <li>Dynamic UI generation</li>
+                    <li>Multi-modal responses</li>
+                </ul>
+            </div>
+
+            <!-- Phase 6 -->
+            <div class="phase-card future">
+                <div class="phase-number">PHASE 06</div>
+                <div class="phase-icon">🤖</div>
+                <h3 class="phase-title">Autonomous Agents</h3>
+                <div class="phase-era">2025 – 2026</div>
+                <p class="phase-description">
+                    AI agents that don't just answer—they act. Auto-dispatch, auto-reconcile, auto-optimize with human oversight.
+                </p>
+                <ul class="phase-features">
+                    <li>Proactive actions</li>
+                    <li>Multi-step workflows</li>
+                    <li>Human-in-the-loop</li>
+                    <li>Data quality auditing</li>
+                </ul>
+            </div>
+
+            <!-- Phase 7 -->
+            <div class="phase-card future">
+                <div class="phase-number">PHASE 07</div>
+                <div class="phase-icon">🌐</div>
+                <h3 class="phase-title">AI-Native Operations</h3>
+                <div class="phase-era">2026+</div>
+                <p class="phase-description">
+                    Full operational autonomy with governance. Self-optimizing systems that learn and adapt continuously.
+                </p>
+                <ul class="phase-features">
+                    <li>Self-healing systems</li>
+                    <li>Predictive operations</li>
+                    <li>Continuous optimization</li>
+                    <li>AI governance built-in</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Current Stack -->
+    <section class="stack-section" id="section-2">
+        <div class="section-header">
+            <div class="section-label">Our Architecture</div>
+            <h2 class="section-title">The Naviio AI Stack</h2>
+            <p class="section-subtitle">
+                Six applications working together across six layers of the enterprise AI stack.
+            </p>
+        </div>
+
+        <div class="stack-diagram">
+            <div class="stack-layer layer-6">
+                <div class="stack-layer-number">LAYER 6</div>
+                <div class="stack-layer-content">
+                    <div class="stack-layer-title">Data Quality & Governance</div>
+                    <div class="stack-layer-desc">AI agents that audit and validate user input data in real-time</div>
+                </div>
+                <div class="stack-layer-apps">
+                    <span class="app-tag highlight">Naviio Audit Agents</span>
+                    <span class="app-tag">LangFlow</span>
+                </div>
+            </div>
+
+            <div class="connection-indicator">
+                <div class="connection-line"></div>
+            </div>
+
+            <div class="stack-layer layer-5">
+                <div class="stack-layer-number">LAYER 5</div>
+                <div class="stack-layer-content">
+                    <div class="stack-layer-title">Conversational Interfaces</div>
+                    <div class="stack-layer-desc">Human interfaces to AI—WhatsApp, phone calls, and executive dashboard</div>
+                </div>
+                <div class="stack-layer-apps">
+                    <span class="app-tag highlight">Naviio WhatsApp</span>
+                    <span class="app-tag highlight">Naviio Voice</span>
+                    <span class="app-tag highlight">Naviio Insights</span>
+                </div>
+            </div>
+
+            <div class="connection-indicator">
+                <div class="connection-line"></div>
+            </div>
+
+            <div class="stack-layer layer-4">
+                <div class="stack-layer-number">LAYER 4</div>
+                <div class="stack-layer-content">
+                    <div class="stack-layer-title">AI Tools & Capabilities</div>
+                    <div class="stack-layer-desc">The bridge that serves tools AI needs—analytics, search, GPS, billing</div>
+                </div>
+                <div class="stack-layer-apps">
+                    <span class="app-tag highlight">Naviio Tools API</span>
+                    <span class="app-tag">GPT-4.1</span>
+                    <span class="app-tag">Gemini 2.5</span>
+                </div>
+            </div>
+
+            <div class="connection-indicator">
+                <div class="connection-line"></div>
+            </div>
+
+            <div class="stack-layer layer-3">
+                <div class="stack-layer-number">LAYER 3</div>
+                <div class="stack-layer-content">
+                    <div class="stack-layer-title">BI & Analytics</div>
+                    <div class="stack-layer-desc">Aggregations, KPIs, trends, and cached computations</div>
+                </div>
+                <div class="stack-layer-apps">
+                    <span class="app-tag highlight">Naviio Tools API</span>
+                    <span class="app-tag">Redis Cache</span>
+                    <span class="app-tag">SQL Analytics</span>
+                </div>
+            </div>
+
+            <div class="connection-indicator">
+                <div class="connection-line"></div>
+            </div>
+
+            <div class="stack-layer layer-2">
+                <div class="stack-layer-number">LAYER 2</div>
+                <div class="stack-layer-content">
+                    <div class="stack-layer-title">Core Enterprise Systems</div>
+                    <div class="stack-layer-desc">The single source of truth—ERP, TMS, Fleet, HR, Finance, Compliance</div>
+                </div>
+                <div class="stack-layer-apps">
+                    <span class="app-tag highlight">Naviio</span>
+                    <span class="app-tag">PostgreSQL</span>
+                    <span class="app-tag">Ruby on Rails</span>
+                </div>
+            </div>
+
+            <div class="connection-indicator">
+                <div class="connection-line"></div>
+            </div>
+
+            <div class="stack-layer layer-1">
+                <div class="stack-layer-number">LAYER 1</div>
+                <div class="stack-layer-content">
+                    <div class="stack-layer-title">Operational Reality</div>
+                    <div class="stack-layer-desc">The physical world—trucks, drivers, GPS, loads, invoices, fuel</div>
+                </div>
+                <div class="stack-layer-apps">
+                    <span class="app-tag">🚛 Fleet</span>
+                    <span class="app-tag">📍 GPS</span>
+                    <span class="app-tag">👨‍✈️ Drivers</span>
+                    <span class="app-tag">📦 Cargo</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Apps Detail -->
+    <section class="apps-section" id="section-3">
+        <div class="section-header">
+            <div class="section-label">Our Applications</div>
+            <h2 class="section-title">Six Apps, One Mission</h2>
+            <p class="section-subtitle">
+                Each application serves a specific purpose in the AI-enabled enterprise.
+            </p>
+        </div>
+
+        <div class="apps-grid">
+            <div class="app-card naviio">
+                <div class="app-card-icon">🏢</div>
+                <h3 class="app-card-name">Naviio</h3>
+                <div class="app-card-tech">Ruby on Rails • PostgreSQL</div>
+                <p class="app-card-role">
+                    <strong>The Foundation.</strong> Full ERP/TMS that captures every transaction—trips, invoices, vehicles, drivers, fuel, payroll, inventory, accounting, and Mexican tax compliance (CFDI, Carta Porte).
+                </p>
+                <span class="app-card-layer">Layer 2 • System of Record</span>
+            </div>
+
+            <div class="app-card tools">
+                <div class="app-card-icon">🔌</div>
+                <h3 class="app-card-name">Naviio Tools API</h3>
+                <div class="app-card-tech">FastAPI • Redis • Python</div>
+                <p class="app-card-role">
+                    <strong>The Bridge.</strong> Serves all the tools AI needs—vehicle analytics, fleet utilization, trip search, GPS positions. Multi-currency, cached, lightning-fast.
+                </p>
+                <span class="app-card-layer">Layer 3-4 • AI Tools Bridge</span>
+            </div>
+
+            <div class="app-card whatsapp">
+                <div class="app-card-icon">💬</div>
+                <h3 class="app-card-name">Naviio WhatsApp</h3>
+                <div class="app-card-tech">FastAPI • LangFlow • Whisper</div>
+                <p class="app-card-role">
+                    <strong>The Field Interface.</strong> WhatsApp integration for drivers and dispatchers. Voice notes, GPS lookups, human handoff when needed.
+                </p>
+                <span class="app-card-layer">Layer 5 • Field Chat</span>
+            </div>
+
+            <div class="app-card voice">
+                <div class="app-card-icon">📞</div>
+                <h3 class="app-card-name">Naviio Voice</h3>
+                <div class="app-card-tech">Telephony • Speech-to-Text • LangFlow</div>
+                <p class="app-card-role">
+                    <strong>Call & Talk to AI.</strong> Dial a number, talk to agents. Customers ask shipment status & ETA. Drivers get directions or report maintenance issues.
+                </p>
+                <span class="app-card-layer">Layer 5 • Phone Interface</span>
+            </div>
+
+            <div class="app-card insights">
+                <div class="app-card-icon">📊</div>
+                <h3 class="app-card-name">Naviio Insights</h3>
+                <div class="app-card-tech">Flutter • FastAPI • Gemini</div>
+                <p class="app-card-role">
+                    <strong>ChatGPT for Your Business Data.</strong> Ask any question about your operations. Get instant answers with dynamic KPI cards, charts, and visualizations.
+                </p>
+                <span class="app-card-layer">Layer 5 • Executive Dashboard</span>
+            </div>
+
+            <div class="app-card agents">
+                <div class="app-card-icon">🤖</div>
+                <h3 class="app-card-name">Naviio Audit Agents</h3>
+                <div class="app-card-tech">LangFlow • GPT-4.1 • Python</div>
+                <p class="app-card-role">
+                    <strong>Data Quality Guardians.</strong> AI agents that audit and validate user input data in real-time—catching errors, inconsistencies, and anomalies before they become problems.
+                </p>
+                <span class="app-card-layer">Layer 6 • Data Governance</span>
+            </div>
+        </div>
+
+        <!-- Data Flow Diagram -->
+        <div class="flow-diagram">
+            <div class="flow-title">HOW DATA FLOWS THROUGH THE STACK</div>
+            
+            <div class="flow-row">
+                <div class="flow-box">📱 User asks a question</div>
+            </div>
+            
+            <div class="flow-arrow-down">↓</div>
+            
+            <div class="flow-row">
+                <div class="flow-box">Naviio WhatsApp</div>
+                <span class="flow-arrow">or</span>
+                <div class="flow-box">Naviio Voice</div>
+                <span class="flow-arrow">or</span>
+                <div class="flow-box">Naviio Insights</div>
+            </div>
+            
+            <div class="flow-arrow-down">↓</div>
+            
+            <div class="flow-row">
+                <div class="flow-box">LangFlow Agent interprets the question</div>
+            </div>
+            
+            <div class="flow-arrow-down">↓</div>
+            
+            <div class="flow-row">
+                <div class="flow-box highlight">Naviio Tools API</div>
+            </div>
+            
+            <div class="flow-arrow-down">↓</div>
+            
+            <div class="flow-row">
+                <div class="flow-box highlight">Naviio (ERP/TMS)</div>
+            </div>
+            
+            <div class="flow-arrow-down">↓</div>
+            
+            <div class="flow-row">
+                <div class="flow-box">📊 Answer with visualizations</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section class="roadmap-section" id="section-4">
+        <div class="section-header">
+            <div class="section-label">The Roadmap</div>
+            <h2 class="section-title">Where We're Going</h2>
+            <p class="section-subtitle">
+                From conversational AI to autonomous operations—the next phases of evolution.
+            </p>
+        </div>
+
+        <div class="roadmap-grid">
+            <div class="roadmap-column now">
+                <div class="roadmap-column-header">
+                    <div class="roadmap-status"></div>
+                    <h3 class="roadmap-column-title">Now</h3>
+                </div>
+                <div class="roadmap-timeline">Phase 5 • Conversational AI</div>
+                <ul class="roadmap-items">
+                    <li class="roadmap-item">
+                        <div class="roadmap-item-title">✅ Naviio WhatsApp</div>
+                        <div class="roadmap-item-desc">Drivers ask questions via chat & voice notes</div>
+                    </li>
+                    <li class="roadmap-item">
+                        <div class="roadmap-item-title">✅ Naviio Voice</div>
+                        <div class="roadmap-item-desc">Call a number, talk to AI agents</div>
+                    </li>
+                    <li class="roadmap-item">
+                        <div class="roadmap-item-title">✅ Naviio Insights</div>
+                        <div class="roadmap-item-desc">ChatGPT for business data with GenUI</div>
+                    </li>
+                    <li class="roadmap-item">
+                        <div class="roadmap-item-title">✅ Naviio Tools API</div>
+                        <div class="roadmap-item-desc">Fleet analytics, billing, GPS tools</div>
+                    </li>
+                    <li class="roadmap-item">
+                        <div class="roadmap-item-title">✅ Naviio Audit Agents</div>
+                        <div class="roadmap-item-desc">Real-time data validation</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="roadmap-column next">
+                <div class="roadmap-column-header">
+                    <div class="roadmap-status"></div>
+                    <h3 class="roadmap-column-title">Next</h3>
+                </div>
+                <div class="roadmap-timeline">Phase 6 • Autonomous Agents</div>
+                <ul class="roadmap-items">
+                    <li class="roadmap-item">
+                        <div class="roadmap-item-title">🔄 Auto-Dispatch Agent</div>
+                        <div class="roadmap-item-desc">AI assigns trucks to loads optimally</div>
+                    </li>
+                    <li class="roadmap-item">
+                        <div class="roadmap-item-title">🔄 Payment Reconciliation</div>
+                        <div class="roadmap-item-desc">Auto-match invoices to payments</div>
+                    </li>
+                    <li class="roadmap-item">
+                        <div class="roadmap-item-title">🔄 Proactive Alerts</div>
+                        <div class="roadmap-item-desc">AI spots issues before you ask</div>
+                    </li>
+                    <li class="roadmap-item">
+                        <div class="roadmap-item-title">🔄 Multi-Agent Orchestration</div>
+                        <div class="roadmap-item-desc">Agents collaborate on complex tasks</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="roadmap-column">
+                <div class="roadmap-column-header">
+                    <div class="roadmap-status"></div>
+                    <h3 class="roadmap-column-title">Future</h3>
+                </div>
+                <div class="roadmap-timeline">Phase 7 • AI-Native Operations</div>
+                <ul class="roadmap-items">
+                    <li class="roadmap-item">
+                        <div class="roadmap-item-title">🌐 Self-Optimizing Routes</div>
+                        <div class="roadmap-item-desc">Continuous route optimization</div>
+                    </li>
+                    <li class="roadmap-item">
+                        <div class="roadmap-item-title">🌐 Predictive Maintenance</div>
+                        <div class="roadmap-item-desc">Fix before it breaks</div>
+                    </li>
+                    <li class="roadmap-item">
+                        <div class="roadmap-item-title">🌐 Dynamic Pricing</div>
+                        <div class="roadmap-item-desc">AI-driven rate optimization</div>
+                    </li>
+                    <li class="roadmap-item">
+                        <div class="roadmap-item-title">🌐 Full Governance</div>
+                        <div class="roadmap-item-desc">All AI actions audited & controlled</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Questions You Can Ask -->
+    <section class="questions-section" id="section-5" style="background: radial-gradient(ellipse at 30% 70%, var(--glow-green) 0%, transparent 50%), var(--bg-deep);">
+        <div class="section-header">
+            <div class="section-label">Just Ask</div>
+            <h2 class="section-title">Questions AI Can Answer</h2>
+            <p class="section-subtitle">
+                Natural language queries for everyone—from CEO to truck driver to customer.
+            </p>
+        </div>
+
+        <div style="max-width: 1200px; margin: 0 auto;">
+            
+            <!-- Question Categories Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem;">
+                
+                <!-- CEO / Executive Questions -->
+                <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 1.5rem; padding: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="width: 48px; height: 48px; background: rgba(139, 92, 246, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">👔</div>
+                        <div>
+                            <div style="font-weight: 600;">CEO / Executives</div>
+                            <div style="font-size: 0.75rem; color: #8b5cf6;">via Naviio Insights</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.2); border-radius: 1rem; padding: 1rem; font-size: 0.9rem;">
+                            "Dame un análisis completo de cómo nos fue en 2025"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "¿Cuáles son nuestros 5 clientes con mayor riesgo de churn?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "Compara el RPM de Intermodal vs Ruta Larga este año"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "¿Quiénes son los vendedores que más han crecido?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "¿Cuánto facturó la zona Norte en Q3?"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Operations / Dispatch Questions -->
+                <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 1.5rem; padding: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="width: 48px; height: 48px; background: rgba(59, 130, 246, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">📋</div>
+                        <div>
+                            <div style="font-weight: 600;">Operations / Dispatch</div>
+                            <div style="font-size: 0.75rem; color: #3b82f6;">via Naviio Insights or WhatsApp</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 1rem; padding: 1rem; font-size: 0.9rem;">
+                            "¿Cuántos tractores tenemos ociosos ahora mismo?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "¿Qué camiones están cerca de Laredo disponibles?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "Dame el status de todos los viajes de Logistik hoy"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "¿Cuál es el ETA del viaje #45678?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "Lista los viajes retrasados de esta semana"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Driver Questions -->
+                <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 1.5rem; padding: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="width: 48px; height: 48px; background: rgba(34, 197, 94, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🚛</div>
+                        <div>
+                            <div style="font-weight: 600;">Truck Drivers</div>
+                            <div style="font-size: 0.75rem; color: #22c55e;">via WhatsApp or Voice</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 1rem; padding: 1rem; font-size: 0.9rem;">
+                            "¿Dónde cargo combustible más cercano?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "Mi camión está haciendo un ruido raro en el motor"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "¿Cómo llego al almacén de Expeditors?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "Necesito reportar una llanta ponchada"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "¿Cuánto me falta para terminar mi viaje?"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Questions -->
+                <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 1.5rem; padding: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="width: 48px; height: 48px; background: rgba(245, 158, 11, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">📦</div>
+                        <div>
+                            <div style="font-weight: 600;">Customers</div>
+                            <div style="font-size: 0.75rem; color: #f59e0b;">via Voice or WhatsApp</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 1rem; padding: 1rem; font-size: 0.9rem;">
+                            "¿Dónde está mi embarque #78234?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "¿A qué hora llega mi carga?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "¿Ya salió el camión de la planta?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "Necesito la carta porte del viaje de ayer"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "¿Tienen disponibilidad para mañana?"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Finance Questions -->
+                <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 1.5rem; padding: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">💰</div>
+                        <div>
+                            <div style="font-weight: 600;">Finance / Billing</div>
+                            <div style="font-size: 0.75rem; color: #10b981;">via Naviio Insights</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 1rem; padding: 1rem; font-size: 0.9rem;">
+                            "¿Cuánto facturó el camión X-841 en enero?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "¿Cuáles facturas tiene pendientes Ryder?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "Dame el estado de cuenta de Logistik"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "¿Cuánto gastamos en combustible este mes?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "Compara ingresos vs gastos por flota"
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fleet / Maintenance Questions -->
+                <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 1.5rem; padding: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div style="width: 48px; height: 48px; background: rgba(236, 72, 153, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🔧</div>
+                        <div>
+                            <div style="font-weight: 600;">Fleet / Maintenance</div>
+                            <div style="font-size: 0.75rem; color: #ec4899;">via Naviio Insights</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.2); border-radius: 1rem; padding: 1rem; font-size: 0.9rem;">
+                            "¿Qué camiones tienen mantenimiento pendiente?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "¿Cuál es el rendimiento de combustible del X-299?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "Lista las llantas que necesitan cambio pronto"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "¿Cuántos accidentes tuvimos este año?"
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 1rem; padding: 1rem; font-size: 0.9rem; color: var(--text-secondary);">
+                            "¿Cuál unidad tiene más fallas reportadas?"
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Bottom CTA -->
+            <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1)); border: 1px solid var(--border-accent); border-radius: 1.5rem;">
+                <div style="font-family: 'Instrument Serif', serif; font-size: 1.75rem; margin-bottom: 1rem;">
+                    Stop searching. <span style="color: var(--accent-primary);">Start asking.</span>
+                </div>
+                <div style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+                    The same AI understands questions from the CEO, the dispatcher, the driver, and the customer. 
+                    Everyone gets answers in seconds—through the channel they prefer.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision -->
+    <section class="vision-section" id="section-6" style="background: linear-gradient(135deg, var(--bg-deep) 0%, #0f172a 100%); text-align: center;">
+        <div class="section-header">
+            <div class="section-label">The Vision</div>
+            <h2 class="section-title">Where This All Leads</h2>
+        </div>
+
+        <p class="vision-quote">
+            "The future isn't about <span>replacing humans</span> with AI—it's about giving every person in the organization <span>superpowers</span> to make better decisions, faster."
+        </p>
+
+        <div class="vision-stats">
+            <div class="vision-stat">
+                <div class="vision-stat-value">5s</div>
+                <div class="vision-stat-label">Average query response</div>
+            </div>
+            <div class="vision-stat">
+                <div class="vision-stat-value">24/7</div>
+                <div class="vision-stat-label">AI availability</div>
+            </div>
+            <div class="vision-stat">
+                <div class="vision-stat-value">100%</div>
+                <div class="vision-stat-label">Data audited in real-time</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 4rem;">
+            <p style="color: var(--text-secondary); max-width: 700px; margin: 0 auto;">
+                <strong style="color: var(--text-primary);">Naviio is the foundation.</strong> 
+                It captures the operational truth of every truck, every driver, every invoice. 
+                The AI layer transforms that truth into instant answers for anyone who needs them—from 
+                the CEO asking about fleet utilization to the driver checking on a GPS ping.
+            </p>
+        </div>
+
+        <div style="margin-top: 3rem; display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏢</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Naviio</div>
+                <div style="font-size: 0.65rem; color: var(--accent-primary);">Foundation</div>
+            </div>
+            <div style="color: var(--text-muted); display: flex; align-items: center;">→</div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔌</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Tools API</div>
+                <div style="font-size: 0.65rem; color: var(--accent-primary);">Bridge</div>
+            </div>
+            <div style="color: var(--text-muted); display: flex; align-items: center;">→</div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">💬</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">WhatsApp</div>
+                <div style="font-size: 0.65rem; color: var(--accent-primary);">Chat</div>
+            </div>
+            <div style="color: var(--text-muted); display: flex; align-items: center;">+</div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📞</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Voice</div>
+                <div style="font-size: 0.65rem; color: var(--accent-primary);">Calls</div>
+            </div>
+            <div style="color: var(--text-muted); display: flex; align-items: center;">+</div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Insights</div>
+                <div style="font-size: 0.65rem; color: var(--accent-primary);">Executives</div>
+            </div>
+            <div style="color: var(--text-muted); display: flex; align-items: center;">+</div>
+            <div style="text-align: center;">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🤖</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Audit</div>
+                <div style="font-size: 0.65rem; color: var(--accent-primary);">Quality</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">
+            Naviio AI Stack • Built for Transportation & Logistics • 2024
+        </p>
+    </footer>
+
+    <script>
+        // Navigation dots
+        const sections = document.querySelectorAll('section');
+        const dots = document.querySelectorAll('.nav-dot');
+
+        // Intersection Observer for nav dots
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = Array.from(sections).indexOf(entry.target);
+                    dots.forEach((dot, i) => {
+                        dot.classList.toggle('active', i === index);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Click on dots to navigate
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                sections[index].scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Animate elements on scroll
+        const animateOnScroll = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.phase-card, .stack-layer, .app-card, .roadmap-column').forEach(el => {
+            animateOnScroll.observe(el);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
